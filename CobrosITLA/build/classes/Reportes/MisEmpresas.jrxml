@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="76c3d073-f81e-4395-8bb4-df89390d2e2c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="userInsertado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from cobros.empresa]]>
+	</queryString>
+	<field name="id_empresa" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<variable name="id_empresa_1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{id_empresa}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="109479ee-da9a-4eeb-92d1-29ae342e390d" x="221" y="0" width="100" height="20"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mis Empresas]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="5a767965-510a-4f92-a42a-113210339286" x="421" y="0" width="134" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="h.mm.ss a">
+				<reportElement uuid="c11bd72b-d848-433c-9424-741620c2e6fe" x="478" y="14" width="77" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f29c2558-407b-4698-860b-0a0884e02656" x="502" y="27" width="32" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER} + " de "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="c8032d2f-0fd2-4977-963a-920f762a0c22" x="534" y="27" width="21" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="30bfc9c8-960f-4b8f-b077-b196f24ae816" x="0" y="0" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{userInsertado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="3e57f93c-fc9b-4f07-bd3e-845b950c4bd5" x="16" y="0" width="25" height="14"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d54c2ac4-479e-45eb-8dfb-3c6c4188290f" x="41" y="0" width="316" height="14"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Empresa]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="bc2186e9-f442-4eb1-939f-aab9ea9cb173" x="0" y="14" width="357" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement uuid="d372f59b-8da5-4dc2-8559-ab2b503a457c" x="16" y="0" width="25" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{id_empresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e9538fd4-49a1-437a-bbf9-b48877a34321" x="41" y="0" width="316" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

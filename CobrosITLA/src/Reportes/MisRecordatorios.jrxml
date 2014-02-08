@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MisRecordatorios" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e4cbb632-5f23-4844-8f58-3a13883e920b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="userInsertado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from cobros.reminder]]>
+	</queryString>
+	<field name="id_reminder" class="java.lang.Integer"/>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="fecha_establecida" class="java.sql.Date"/>
+	<field name="fecha_a_aplicar" class="java.sql.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="41" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="76efeb5a-0f7d-4278-826a-108dc452c3d4" x="421" y="0" width="134" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="eb96adf8-533c-4422-8898-bd307e28669f" x="210" y="14" width="131" height="20"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mis Recordatorios]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="4c41cd7e-2583-4906-b1ce-70e82c927d4e" x="502" y="27" width="32" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER} + " de "]]></textFieldExpression>
+			</textField>
+			<textField pattern="h.mm.ss a">
+				<reportElement uuid="52b56c33-4846-431c-bb0d-3d9829d1268e" x="478" y="14" width="77" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="61654d50-310a-46d6-8fc9-b3f635342bdb" x="534" y="27" width="21" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a7d44fe0-26d6-4cde-987d-4990660d1cc4" x="0" y="0" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{userInsertado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="14" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5b3e83a7-e26a-41b1-a10d-8c9605f8da27" x="10" y="0" width="23" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="4d3f0bfd-c50b-40f1-933d-d14b3856b909" x="0" y="13" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="0c43afb4-0afe-46e1-91f7-d00b09af9027" x="33" y="0" width="322" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0c230a14-3753-421e-a633-0c7bb0d7bea2" x="355" y="0" width="100" height="14"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Establecida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a0c035cf-b9de-4f52-8c2e-9d0d9a4c6049" x="455" y="0" width="100" height="14"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha A Aplicar]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement uuid="e185676a-139e-4e5d-a04b-e20d429a04c2" x="10" y="0" width="23" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{id_reminder}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="31d83b96-5fea-46e2-b35d-dcc727ee6c7c" x="33" y="0" width="322" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d3d9dc4b-f723-4070-9c95-d928af511da7" x="355" y="0" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{fecha_establecida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b1217830-4061-4de7-a426-a894867875d0" x="455" y="0" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{fecha_a_aplicar}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

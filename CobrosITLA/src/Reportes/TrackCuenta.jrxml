@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TrackCuenta" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b09ba145-2691-42f9-978b-77e78ea7f873">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="userInsertado" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\jsanchez\\Documents\\NetBeansProjects\\CobrosITLA\\CobrosITLA\\src\\Reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select *
+from cobros.track_cuenta]]>
+	</queryString>
+	<field name="id_track_cuenta" class="java.lang.Integer"/>
+	<field name="id_agente" class="java.lang.Integer"/>
+	<field name="fecha_hora" class="java.sql.Date"/>
+	<field name="id_cuenta" class="java.lang.Integer"/>
+	<field name="id_disposicion" class="java.lang.Integer"/>
+	<field name="id_reminder" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="44" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="345b5579-148d-4ebb-944c-53cba2f785b1" x="455" y="0" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="h.mm.ss a">
+				<reportElement uuid="35a3beea-1c1e-4d2d-91e2-5051fef23f4a" x="455" y="14" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a14085cf-2d3f-4ad1-893a-6762653dc8ca" x="455" y="28" width="65" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="ae06e633-186b-44a0-a0d0-54254e85008e" x="520" y="28" width="35" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="55f98f3a-afb0-4dea-be2a-e45cce29bdf0" x="225" y="8" width="140" height="20"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Track Cuenta Actual]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="30bfc9c8-960f-4b8f-b077-b196f24ae816" x="0" y="0" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{userInsertado}]]></textFieldExpression>
+			</textField>
+			<elementGroup/>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="85a063f9-f305-455c-8718-9ad6f08aab1d" x="0" y="0" width="80" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Track Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5d80ca8f-7e58-42a1-a606-bf5b8211e19c" x="80" y="0" width="66" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Agente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="19325c02-473f-425f-a991-2335694b063f" x="146" y="0" width="79" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Hora]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c7dccf18-b83e-40f9-8261-0a0c15ee0425" x="225" y="0" width="88" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f03aad9d-0b98-41e8-9e78-fe02999bf632" x="313" y="0" width="132" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Disposición]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="40d397f1-661f-46dd-a855-8c10f95e0f67" x="445" y="0" width="110" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Reminder]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="0744cc79-d0ef-4709-98e4-ae60a2c2bd25" x="0" y="15" width="555" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement uuid="620c036e-b452-4c7a-8f92-afa568b4c711" x="0" y="0" width="80" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{id_track_cuenta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="67180055-4432-4b32-9c3d-b7395d89b15b" x="80" y="0" width="66" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{id_agente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2113bda3-7524-4b62-8ded-cd8cb1ff5a31" x="146" y="0" width="79" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{fecha_hora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="16075382-b172-4c09-8c65-97179dd2c8a7" x="225" y="0" width="88" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{id_cuenta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f2c44ddb-570e-40d5-8b3c-8c9adbdd3a49" x="313" y="0" width="132" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{id_disposicion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="115755cd-5da9-4dff-a7ba-6082240c9a90" x="445" y="0" width="110" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{id_reminder}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

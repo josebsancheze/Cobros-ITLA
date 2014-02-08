@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MisAsignacionesPendientes" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31a60132-0ff6-4788-83ab-08f3d7fbfd38">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="userInsertado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from cobros.cuenta, cobros.track_cuenta, cobros.agente
+where cobros.cuenta.id_cuenta = cobros.track_cuenta.id_cuenta
+and cobros.track_cuenta.id_agente = cobros.agente.id_agente
+and cobros.track_cuenta.revisado='N'
+]]>
+	</queryString>
+	<field name="id_cuenta" class="java.lang.Integer"/>
+	<field name="cedula" class="java.lang.String"/>
+	<field name="nommbre" class="java.lang.String"/>
+	<field name="apellido" class="java.lang.String"/>
+	<field name="tel1" class="java.lang.String"/>
+	<field name="tel2" class="java.lang.String"/>
+	<field name="dir1" class="java.lang.String"/>
+	<field name="dir2" class="java.lang.String"/>
+	<field name="id_zona" class="java.lang.Integer"/>
+	<field name="fecha_ingreso" class="java.sql.Date"/>
+	<field name="no_contrato" class="java.lang.Integer"/>
+	<field name="fecha_contrato" class="java.sql.Date"/>
+	<field name="estatus" class="java.lang.String"/>
+	<field name="id_empresa" class="java.lang.Integer"/>
+	<field name="monto_deuda" class="java.math.BigDecimal"/>
+	<field name="id_track_cuenta" class="java.lang.Integer"/>
+	<field name="id_agente" class="java.lang.Integer"/>
+	<field name="fecha_hora" class="java.sql.Timestamp"/>
+	<field name="id_disposicion" class="java.lang.Integer"/>
+	<field name="id_reminder" class="java.lang.Integer"/>
+	<field name="revisado" class="java.lang.String"/>
+	<field name="usuario" class="java.lang.String"/>
+	<field name="contraseña" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="43" splitType="Stretch">
+			<textField pattern="h.mm.ss a">
+				<reportElement uuid="8fe3f06a-dccb-494f-ad08-a35bbdd3349d" x="478" y="14" width="77" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="d24eaafc-05a5-4ea6-a3bc-a17924968d3d" x="148" y="0" width="221" height="20"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mis Asignaciones Pendientes]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement uuid="9e4bad1b-e163-43f9-8994-29b5a137b636" x="534" y="27" width="21" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="92698552-8d43-475f-9306-62afecaa0a4a" x="421" y="0" width="134" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6298317a-0c9f-44de-aaee-cf8ae64e2a94" x="502" y="27" width="32" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER} + " de "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="25dbdf17-b549-4829-b662-1fd37d2fa353" x="0" y="0" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{userInsertado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5a42aa94-3f4a-4b51-966f-aa2cc0e020cd" x="10" y="0" width="57" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="01243760-d049-40ef-b3de-d1f5fe4e5ea7" x="67" y="0" width="81" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cédula]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bb643682-3d03-40a3-8d94-69a5cc2a3479" x="148" y="0" width="101" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No. Contrato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="71c952c7-787e-4446-a641-3406a30141a7" x="249" y="0" width="61" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Empresa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e4c9d1ae-c90a-46ad-af6c-08955e99ecfc" x="310" y="0" width="146" height="13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estatus]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="e033fb70-4b61-4ae9-b029-94894a5d6cf4" x="0" y="13" width="555" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField>
+				<reportElement uuid="50b05a54-8fd2-4214-b67a-70c4aad213ce" x="10" y="0" width="57" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{id_cuenta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ce913b53-af22-45d1-8ee9-d58010595675" x="67" y="0" width="81" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7e453794-3c7b-494f-bb05-31b13be38e58" x="148" y="0" width="101" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{no_contrato}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cde34a9a-e447-44e2-bf1f-e98eb1c86304" x="249" y="0" width="61" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{id_empresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a3d986c6-06fd-437f-9e56-376f5b5d24f2" x="310" y="0" width="146" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{estatus}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
