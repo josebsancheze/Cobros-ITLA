@@ -510,7 +510,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnMenuImportarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuImportarCuentaActionPerformed
         // TODO add your handling code here:
-        JFileChooser fc = CuadroSelectorArchivos.initFileChooser();
+        //JFileChooser fc = CuadroSelectorArchivos.initFileChooser();
+        JFileChooser fc = FileChooserFrame.initFileChooser();
 
         if (fc != null) {
             comboBoxDisposicion.removeAllItems();
@@ -521,17 +522,21 @@ public class MainFrame extends javax.swing.JFrame {
             this.path = path;
             this.name = name;
             List cuenta = new ArrayList();
-            cuenta = CargarProperties.getCaso(path, name);
-            
+            //cuenta = CargarProperties.getCaso(path, name);
+            cuenta = CargarCSV.getCaso(path,name);
+                    
             for (Object obj : cuenta) {
                 System.out.print(obj);
                 System.out.println(",");
             }
             
             actualizarFields(cuenta);
+            //comboBoxZona.setSelectedItem(getDescripcionZonaPorId(cuenta.get(7).toString()));
+            //comboBoxDisposicion.setSelectedItem(getDescripcionDisposicionPorId(cuenta.get(14).toString()));
+            //btnSiguiente.setEnabled(true);
             comboBoxZona.setSelectedItem(getDescripcionZonaPorId(cuenta.get(7).toString()));
             comboBoxDisposicion.setSelectedItem(getDescripcionDisposicionPorId(cuenta.get(14).toString()));
-            //btnSiguiente.setEnabled(true);
+            
             
             File dir = new File(path);
             totalCuenta = dir.listFiles().length;
