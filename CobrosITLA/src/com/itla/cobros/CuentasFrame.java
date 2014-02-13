@@ -7,6 +7,7 @@ package com.itla.cobros;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public class CuentasFrame extends javax.swing.JFrame {
 
     DataBase dataBase = new DataBase();
+    ResultSet rs = null;
 
     /**
      * Creates new form CuentasFrame
@@ -33,51 +35,45 @@ public class CuentasFrame extends javax.swing.JFrame {
         System.out.println("llenando la tabla");
 
         try {
-            ResultSet rs = dataBase.getResultSet("select cobros.cuenta.id_cuenta, cobros.cuenta.cedula, cobros.cuenta.nombre, cobros.cuenta.apellido, cobros.cuenta.monto_deuda, cobros.cuenta.estatus  from cobros.cuenta");
+            rs = dataBase.getResultSet("select cobros.cuenta.id_cuenta, cobros.cuenta.cedula, cobros.cuenta.nombre, cobros.cuenta.apellido, cobros.cuenta.monto_deuda, cobros.cuenta.estatus  from cobros.cuenta");
             ResultSetMetaData metaDatos = rs.getMetaData();
 
             int numeroColumnas = metaDatos.getColumnCount();
             DefaultTableModel modelo = new DefaultTableModel();
-            
+
             modelo.addColumn("No. Cuenta");
             modelo.addColumn("Cédula");
             modelo.addColumn("Nombres");
             modelo.addColumn("Apellidos");
             modelo.addColumn("Monto Deuda");
-            modelo.addColumn("[ ||| ]");
-            
-            
+            modelo.addColumn("Activo");
 
-            
             jTable2.setModel(modelo);
-            
-           
-            
 
+            
             while (rs.next()) {
-              
+
                 Object[] fila = new Object[numeroColumnas];
 
                 for (int i = 0; i < numeroColumnas; i++) {
-                    if(i == 5){
-                    if(rs.getObject(i + 1).toString().equals("A")){
-                        fila[i] = true;
-                    }else{
-                        fila[i] = false;
-                    }
-                    }else{
+                    if (i == 5) {
+                        if (rs.getObject(i + 1).toString().equals("A")) {
+                            fila[i] = true;
+                        } else {
+                            fila[i] = false;
+                        }
+                    } else {
                         fila[i] = rs.getObject(i + 1);
-                    
+
                     }
-                    
+
                     //System.out.println("obj: "+rs.getObject(i + 1).toString());
                 }
                 // Se añade al modelo la fila completa.
                 modelo.addRow(fila);
             }
-             jTable2.getColumnModel().getColumn( 5 ).setCellEditor( new Celda_CheckBox() );
-      
-        jTable2.getColumnModel().getColumn( 5 ).setCellRenderer(new Render_CheckBox());
+            jTable2.getColumnModel().getColumn(5).setCellEditor(new Celda_CheckBox());
+            jTable2.getColumnModel().getColumn(5).setCellRenderer(new Render_CheckBox());
 
 
 
@@ -103,6 +99,7 @@ public class CuentasFrame extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,8 +113,23 @@ public class CuentasFrame extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
+
+        jButton1.setText("Guardar cambios");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -125,20 +137,72 @@ public class CuentasFrame extends javax.swing.JFrame {
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(67, 67, 67)
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 454, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(jButton1)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 454, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(152, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(19, Short.MAX_VALUE)
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 362, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 193, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jButton1)
+                .add(140, 140, 140))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+         rs = dataBase.getResultSet("select cobros.cuenta.id_cuenta, cobros.cuenta.cedula, cobros.cuenta.nombre, cobros.cuenta.apellido, cobros.cuenta.monto_deuda, cobros.cuenta.estatus  from cobros.cuenta");
+
+        int count = 0;
+        try {
+            while (rs.next()) {
+                ++count;
+                // Get data from the current row and use it
+            }
+
+            if (count == 0) {
+                System.out.println("No records found");
+            }
+
+        } catch (Exception e) {
+            System.out.println("EXCEPTION: " + e.getMessage());
+        }
+
+        boolean bArray [] = new boolean[count];
+        int cuentas [] = new int[count];
+        String activo = "";
+        
+        for(int i=0; i < count;i++){
+            bArray[i] = (boolean) jTable2.getModel().getValueAt(i, 5);
+            if(bArray[i]){
+                activo = "A";
+            }else{
+                activo = "I";
+            }
+            cuentas[i] = (int) jTable2.getModel().getValueAt(i, 0);
+            System.out.println("CUENTA: "+cuentas[i]+"Activo: "+bArray[i]);
+            String update = "UPDATE cobros.cuenta SET estatus = '"+activo+"' WHERE cobros.cuenta.id_cuenta = "+cuentas[i]+" ";
+            dataBase.executeUpdate(update);
+        }
+          
+        
+        
+      
+            
+       
+
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
