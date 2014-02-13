@@ -53,6 +53,7 @@ public class CargarCSV {
                 cuenta.add(caso[15]);//recordatorio
                 cuenta.add(caso[16]);//descripcionRecordatorio
                 
+                
             }
             //loop map
             for (Map.Entry<String, String> entry : maps.entrySet()) {
