@@ -105,31 +105,35 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        ResultSet datos = dataBase.getResultSet("select * from cobros.agente where cobros.agente.usuario = '"+fieldUsuario.getText()+"'");
-        String pass = "";
-         try{
-            if(datos.last()){
-                pass = datos.getString("contraseña");
-                System.out.println("Usuario encontrado");
-            }
-        }catch(SQLException ex){
-            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE,null,ex);
-        }
         
-        
+//        String pass = "";
+//         try{
+//             ResultSet datos = dataBase.getResultSet("select * from cobros.agente where cobros.agente.usuario = '"+fieldUsuario.getText()+"'");
+//            if(datos.last()){
+//                pass = datos.getString("contraseña");
+//                System.out.println("Usuario encontrado");
+//            }
+//        }catch(SQLException ex){
+//            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE,null,ex);
+//        }
+//        
+//        
+//        boolean log = false;
+//        String userInsertado = fieldUsuario.getText();
+//        String passInsertada = new String(fieldContraseña.getPassword());
+//        
+//        if(passInsertada.equals(pass)){
+//            System.out.println("Contraseña Correcta");
+//            JOptionPane.showMessageDialog(this,"Bienvenido a Cobros-Itla");
+//            log = true;
+//        }else{
+//            System.out.println("Contraseña Incorrecta");
+//            JOptionPane.showMessageDialog(this,"Usuario o Contraseña incorrecta","login error", 
+//                    JOptionPane.ERROR_MESSAGE);
+//        }
+        String userInsertado = "Usuario";
         boolean log = false;
-        String userInsertado = fieldUsuario.getText();
-        String passInsertada = new String(fieldContraseña.getPassword());
-        
-        if(passInsertada.equals(pass)){
-            System.out.println("Contraseña Correcta");
-            JOptionPane.showMessageDialog(this,"Bienvenido a Cobros-Itla");
-            log = true;
-        }else{
-            System.out.println("Contraseña Incorrecta");
-            JOptionPane.showMessageDialog(this,"Usuario o Contraseña incorrecta","login error", 
-                    JOptionPane.ERROR_MESSAGE);
-        }
+        log = true; // quitar esto antes de implementar
         
         if(log){
             this.setVisible(false);
