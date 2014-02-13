@@ -212,6 +212,10 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jSpinner1.setModel(new javax.swing.SpinnerDateModel());
+        jSpinner1.setToolTipText("");
+        jSpinner1.setEditor(new javax.swing.JSpinner.DateEditor(jSpinner1, "dd/MM/yyyy hh:mm:ss a"));
+        jSpinner1.setMaximumSize(new java.awt.Dimension(22, 22));
+        jSpinner1.setMinimumSize(new java.awt.Dimension(22, 22));
 
         org.jdesktop.layout.GroupLayout jInternalFrame1Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame1.getContentPane());
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
@@ -281,7 +285,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .add(fieldEmpresa)
                         .add(fieldMonto)
                         .add(fieldFechaContrato))
-                    .add(jSpinner1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 147, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(jSpinner1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 205, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jInternalFrame1Layout.setVerticalGroup(
@@ -520,7 +524,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .add(btnActualizar)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnSiguiente)
-                        .addContainerGap(10, Short.MAX_VALUE))
+                        .addContainerGap(12, Short.MAX_VALUE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(jButton1)
