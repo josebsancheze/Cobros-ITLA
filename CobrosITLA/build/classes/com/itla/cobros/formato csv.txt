@@ -1,0 +1,2 @@
+# cuenta, cedula, nombres, apellidos, contrato, tel1, tel2, dir1, dir2, zona, monto,
+# empresa, fechaContrato, comentario, disposicion, recordatorio, # descripcionRecordatorio
