@@ -579,7 +579,6 @@ public class MainFrame extends javax.swing.JFrame {
                     }
                 }
             }
-
             //recorrer el archivo
             //este mapa tiene las cuentas ya agregadas a la BD
             Map<String,Integer> mapaCuentas = new HashMap<String,Integer>();
