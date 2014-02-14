@@ -584,6 +584,7 @@ public class MainFrame extends javax.swing.JFrame {
             Map<String,Integer> mapaCuentas = new HashMap<String,Integer>();
             Map<String,Object> mapaReal = new HashMap<String,Object>();
             List cuentaNueva = new ArrayList<>();
+            List todasLasCuentas = new ArrayList<>();
             cuentaNueva = CargarCSV.getCaso(path, name);
             mapaReal = CargarCSV.getCasos2(path, name);
             try {
@@ -592,7 +593,10 @@ public class MainFrame extends javax.swing.JFrame {
                 rs = dataBase.getResultSet(selectCuentas);
                 while(rs.next()){
                     mapaCuentas.put("id_cuenta",rs.getInt("id_cuenta"));
+                    todasLasCuentas.add(rs.getInt("id_cuenta"));
                 }
+                System.out.println("MAPA CUENTAS " + mapaCuentas.get("id_cuenta"));
+                System.out.println("LISTA CUENTAS " + todasLasCuentas);
             }catch(Exception e){
                 
             }
@@ -603,12 +607,13 @@ public class MainFrame extends javax.swing.JFrame {
                         + entry.getKey() + " , Contenido2="
                         + entry.getValue() + "]" );
                     cuentaNueva = CargarCSV.getCasoEspecifico(path, name, entry.getKey());
-                    System.out.println("CEDULA" + cuentaNueva.get(5));
-                    if(!mapaCuentas.containsValue(Integer.parseInt(entry.getKey()))){
-                        System.out.println("BA BA BAM BAM");
+                    System.out.println("VALOR " + cuentaNueva.get(7));
+                    
+                    if(!todasLasCuentas.contains(Integer.parseInt(entry.getKey()))){
+                        System.out.println("BEGIN INSERT");
                         try{
                         dataBase.executeUpdate( 
-                                "INSERT INTO cobros.cuenta(\n"
+                                "INSERT INTO cobros.cuenta( "
                                 + "id_cuenta, cedula, nommbre, apellido, tel1, tel2, dir1, dir2, \n"
                                 + "id_zona, fecha_ingreso, no_contrato, fecha_contrato, estatus, \n"
                                 + "id_empresa, monto_deuda, comentario)\n"
@@ -651,9 +656,9 @@ public class MainFrame extends javax.swing.JFrame {
                         }
                         System.out.println("EXITO");
                 }else{
-                        System.out.println("BOOHOO");
+                        System.out.println("BEGIN UPDATE");
                         try{
-                            dataBase.executeUpdate("UPDATE cobros.cuenta\n"
+                            dataBase.executeUpdate("UPDATE cobros.cuenta "
                                     + " SET cedula='" + cuentaNueva.get(1).toString()
                                     + "', nommbre='" + cuentaNueva.get(2).toString()
                                     + "', apellido='" + cuentaNueva.get(3).toString()
