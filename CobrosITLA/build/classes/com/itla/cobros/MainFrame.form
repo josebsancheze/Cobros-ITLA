@@ -170,7 +170,11 @@
                       <Component id="btnActualizar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnSiguiente" min="-2" max="-2" attributes="0"/>
+<<<<<<< HEAD
                       <EmptySpace pref="21" max="32767" attributes="0"/>
+=======
+                      <EmptySpace pref="12" max="32767" attributes="0"/>
+>>>>>>> 19dfa9f1a96af7e8b8027629327edf9d2855359e
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
@@ -277,7 +281,7 @@
                           <Component id="fieldMonto" alignment="0" max="32767" attributes="0"/>
                           <Component id="fieldFechaContrato" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jSpinner1" min="-2" pref="147" max="-2" attributes="0"/>
+                      <Component id="jSpinner1" min="-2" pref="205" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -598,6 +602,16 @@
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
               <SpinnerModel initial="now" stepSize="5" type="date"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
+              <SpinnerEditor format="dd/MM/yyyy hh:mm:ss a" type="1"/>
+            </Property>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[22, 22]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[22, 22]"/>
             </Property>
           </Properties>
         </Component>
