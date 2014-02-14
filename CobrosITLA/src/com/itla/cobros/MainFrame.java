@@ -24,7 +24,6 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-
 /**
  *
  * @author edgar
@@ -39,10 +38,11 @@ public class MainFrame extends javax.swing.JFrame {
     private static int totalCuenta = 0;
     private boolean actualizar = false;
     private boolean revisado = false;
+    private boolean checkRecordatorio = false;
     private String disposicionEditada = "";
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
     //String dateInString = "7-Jun-2013";
-    
+
     /**
      * Creates new form MainFrame
      */
@@ -57,7 +57,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnSiguiente.setEnabled(false);
         btnEditar.setEnabled(false);
         btnActualizar.setEnabled(false);
-        
+
     }
 
     /**
@@ -99,7 +99,6 @@ public class MainFrame extends javax.swing.JFrame {
         fieldEmpresa = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaObservacion = new javax.swing.JTextArea();
-        fieldRecordatorio = new javax.swing.JTextField();
         fieldFechaContrato = new javax.swing.JTextField();
         fieldDescripcionRecordatorio = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
@@ -108,12 +107,14 @@ public class MainFrame extends javax.swing.JFrame {
         fieldDir2 = new javax.swing.JTextField();
         comboBoxDisposicion = new javax.swing.JComboBox();
         comboBoxZona = new javax.swing.JComboBox();
-        jSpinner1 = new javax.swing.JSpinner();
+        recordatorioSpinner = new javax.swing.JSpinner();
+        jCheckBox1 = new javax.swing.JCheckBox();
         lblUserLogged = new javax.swing.JLabel();
         btnEditar = new javax.swing.JToggleButton();
         btnActualizar = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnMenuArchivo = new javax.swing.JMenu();
         btnMenuImportarCuenta = new javax.swing.JMenuItem();
@@ -212,11 +213,27 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jSpinner1.setModel(new javax.swing.SpinnerDateModel());
-        jSpinner1.setToolTipText("");
-        jSpinner1.setEditor(new javax.swing.JSpinner.DateEditor(jSpinner1, "dd/MM/yyyy hh:mm:ss a"));
-        jSpinner1.setMaximumSize(new java.awt.Dimension(22, 22));
-        jSpinner1.setMinimumSize(new java.awt.Dimension(22, 22));
+        recordatorioSpinner.setModel(new javax.swing.SpinnerDateModel());
+        recordatorioSpinner.setToolTipText("");
+        recordatorioSpinner.setEditor(new javax.swing.JSpinner.DateEditor(recordatorioSpinner, "dd/MM/yyyy hh:mm:ss a"));
+        recordatorioSpinner.setMaximumSize(new java.awt.Dimension(22, 22));
+        recordatorioSpinner.setMinimumSize(new java.awt.Dimension(22, 22));
+
+        jCheckBox1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jCheckBox1StateChanged(evt);
+            }
+        });
+        jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox1ItemStateChanged(evt);
+            }
+        });
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout jInternalFrame1Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame1.getContentPane());
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
@@ -258,9 +275,8 @@ public class MainFrame extends javax.swing.JFrame {
                             .add(jLabel9)
                             .add(jLabel10)
                             .add(jLabel11)
-                            .add(jLabel12)
-                            .add(jLabel13)
-                            .add(jLabel14)))
+                            .add(jLabel14)
+                            .add(jLabel13)))
                     .add(jInternalFrame1Layout.createSequentialGroup()
                         .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jLabel5)
@@ -272,22 +288,29 @@ public class MainFrame extends javax.swing.JFrame {
                             .add(fieldTel1)
                             .add(fieldTel2)
                             .add(fieldContrato, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(comboBoxZona, 0, 203, Short.MAX_VALUE))))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(comboBoxZona, 0, 203, Short.MAX_VALUE))
+                        .add(18, 18, 18)
+                        .add(jLabel12)))
                 .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                        .add(jInternalFrame1Layout.createSequentialGroup()
-                            .add(182, 182, 182)
-                            .add(lbCedula, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 59, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(comboBoxDisposicion, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldDescripcionRecordatorio)
-                        .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldRecordatorio)
-                        .add(jScrollPane1)
-                        .add(fieldEmpresa)
-                        .add(fieldMonto)
-                        .add(fieldFechaContrato))
-                    .add(jSpinner1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 205, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(jInternalFrame1Layout.createSequentialGroup()
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(jInternalFrame1Layout.createSequentialGroup()
+                                .add(182, 182, 182)
+                                .add(lbCedula, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 59, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(comboBoxDisposicion, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldDescripcionRecordatorio)
+                            .add(jScrollPane1)
+                            .add(fieldEmpresa)
+                            .add(fieldMonto)
+                            .add(fieldFechaContrato))
+                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jInternalFrame1Layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(jCheckBox1)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(recordatorioSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 205, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -295,78 +318,74 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jInternalFrame1Layout.createSequentialGroup()
-                        .add(0, 0, Short.MAX_VALUE)
-                        .add(lbCedula))
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(lbCuenta)
+                            .add(fieldCuenta, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel1))
+                        .add(6, 6, 6)
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel2)
+                            .add(fieldCedula, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel9))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel3)
+                            .add(fieldNombres, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel4)
+                            .add(fieldApellidos, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel5)
+                            .add(fieldContrato, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel6)
+                            .add(fieldTel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel7)
+                            .add(fieldTel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel12)))
                     .add(jInternalFrame1Layout.createSequentialGroup()
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(jInternalFrame1Layout.createSequentialGroup()
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(lbCuenta)
-                                    .add(fieldCuenta, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(jLabel1))
-                                .add(6, 6, 6)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(jLabel2)
-                                    .add(fieldCedula, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(jLabel9))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(jLabel3)
-                                    .add(fieldNombres, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(jLabel4)
-                                    .add(fieldApellidos, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(jLabel5)
-                                    .add(fieldContrato, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(jLabel6)
-                                    .add(fieldTel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(jLabel7)
-                                    .add(fieldTel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(jLabel8)
-                                    .add(comboBoxZona, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(jLabel16)
-                                    .add(fieldDir1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(jLabel17)
-                                    .add(fieldDir2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(jLabel14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(fieldDescripcionRecordatorio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                            .add(jInternalFrame1Layout.createSequentialGroup()
-                                .add(fieldMonto, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(6, 6, 6)
-                                .add(fieldEmpresa, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(jLabel10)
-                                    .add(fieldFechaContrato, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(jLabel11)
-                                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 102, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(jSpinner1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(jLabel12)
-                                    .add(comboBoxDisposicion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                                    .add(jLabel13)
-                                    .add(fieldRecordatorio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .add(26, 26, 26)))
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .add(fieldMonto, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(6, 6, 6)
+                        .add(fieldEmpresa, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel10)
+                            .add(fieldFechaContrato, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel11)
+                            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 102, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(comboBoxDisposicion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jInternalFrame1Layout.createSequentialGroup()
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel8)
+                            .add(comboBoxZona, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel16)
+                            .add(fieldDir1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel13)
+                            .add(jCheckBox1)))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, recordatorioSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jInternalFrame1Layout.createSequentialGroup()
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel17)
+                            .add(fieldDir2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(fieldDescripcionRecordatorio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(33, Short.MAX_VALUE))
+                    .add(jInternalFrame1Layout.createSequentialGroup()
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(lbCedula))))
         );
 
         lblUserLogged.setForeground(new java.awt.Color(0, 204, 51));
@@ -398,10 +417,17 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Manejar Cuentas");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -497,16 +523,19 @@ public class MainFrame extends javax.swing.JFrame {
                     .add(jSeparator1)
                     .add(jInternalFrame1)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(6, 6, 6)
+                        .add(jButton1)
+                        .add(78, 78, 78)
+                        .add(jButton2)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, btnEditar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, btnActualizar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .add(btnSiguiente, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(0, 0, Short.MAX_VALUE)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                                .add(jButton1)
-                                .add(245, 245, 245)
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, btnEditar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, btnActualizar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .add(btnSiguiente, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblUserLogged, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 113, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                        .add(lblUserLogged, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 113, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(12, 12, 12)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -514,26 +543,80 @@ public class MainFrame extends javax.swing.JFrame {
             .add(layout.createSequentialGroup()
                 .add(lblUserLogged)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jInternalFrame1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnEditar)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
+                        .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jInternalFrame1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(btnEditar)
+                            .add(jButton1))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnActualizar)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnSiguiente)
-                        .addContainerGap(12, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(jButton1)
-                        .add(33, 33, 33))))
+                        .add(jButton2)
+                        .add(16, 16, 16)))
+                .add(btnSiguiente)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public void repartirCuentas() {
+        String sqlUpdate = "";
+        int cuentas = 0, agentes = 0;
+        int cuentaNow, agenteNow;
+
+        try {
+            String sqlCuentas = "select cobros.cuenta.id_cuenta from cobros.cuenta where cobros.cuenta.activo = 'S'";
+            ResultSet rs = dataBase.getResultSet(sqlCuentas);
+
+            String sqlAgentes = "select cobros.agente.id_agente from cobros.agente where cobros.agente.activo = 'S'";
+            ResultSet rs2 = dataBase.getResultSet(sqlAgentes);
+
+            while (rs.next()) 
+                ++cuentas;       
+            
+            while (rs2.next()) 
+                ++agentes;
+            
+            rs.beforeFirst();
+            rs2.beforeFirst();
+            
+            System.out.println("Hay: "+cuentas+" cuentas y "+agentes+" agentes");
+            
+            while(rs.next()){ // siguiente cuenta
+                while(rs2.next()){ // siguiente agente                  
+                    cuentaNow = rs.getInt("id_cuenta");
+                    agenteNow = rs2.getInt("id_agente");
+                    System.out.println("Se van a insertar: "+rs2.getInt("id_agente")+","+rs.getInt("id_cuenta"));
+                    String sqlInsert = "insert into cobros.agentescuentas (id_agente, id_cuenta) values(" + agenteNow + "," + cuentaNow + ")";
+                    dataBase.executeUpdate(sqlInsert);
+                    rs.next(); // siguiente cuenta
+                }
+                rs.previous();
+                rs2.beforeFirst();
+                System.out.println("reset rs-agentes");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+
+
+
+
+
+
+
+
+
+
+
+    }
 
     private void btnMenuImportarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuImportarCuentaActionPerformed
         // TODO add your handling code here:
@@ -543,7 +626,7 @@ public class MainFrame extends javax.swing.JFrame {
         if (fc != null) {
             comboBoxDisposicion.removeAllItems();
             comboBoxZona.removeAllItems();
-            
+
             String path = fc.getCurrentDirectory().toString();
             String name = fc.getSelectedFile().getName();
             this.path = path;
@@ -557,7 +640,7 @@ public class MainFrame extends javax.swing.JFrame {
             long countCuentasCSV = 0;
             Map<String,Integer> casos = new HashMap<String, Integer>();
             
-            //cuenta = CargarProperties.getCaso(path, name);
+
             cuenta = CargarCSV.getCaso(path,name);//datos especificos de la cuenta
             casos = CargarCSV.getCasos(path, name);//datos de LAS CUENTAS
             countCuentasCSV = CargarCSV.cantCasos;//conseguir cantidad de cuentas en el csv
@@ -690,42 +773,42 @@ public class MainFrame extends javax.swing.JFrame {
             //btnSiguiente.setEnabled(true);
             comboBoxZona.setSelectedItem(getDescripcionZonaPorId(cuenta.get(9).toString()));
             comboBoxDisposicion.setSelectedItem(getDescripcionDisposicionPorId(cuenta.get(14).toString()));
-            
-            
+
+
             File dir = new File(path);
             totalCuenta = dir.listFiles().length;
-            
+
             //para indexar los nombres de los archivos del folder y luego saber
             //que archivo tengo seleccionado por un indice
-            Map<Integer,String> nombresArchivo = new HashMap<Integer,String>();
+            Map<Integer, String> nombresArchivo = new HashMap<Integer, String>();
             File[] child;
-            
+
             child = dir.listFiles();
-            try{
-                for(int i=0;i<totalCuenta;i++){
-                    if(!child[i].getName().isEmpty()){
+            try {
+                for (int i = 0; i < totalCuenta; i++) {
+                    if (!child[i].getName().isEmpty()) {
                         //Entro al Map todos los archivos del folder
-                        nombresArchivo.put(i,child[i].getName());
+                        nombresArchivo.put(i, child[i].getName());
                     }
                     //System.out.println("nombres archivos " + nombresArchivo.get(i));
-                    if(nombresArchivo.get(i).equals(fc.getSelectedFile().getName())){
+                    if (nombresArchivo.get(i).equals(fc.getSelectedFile().getName())) {
                         //System.out.println(nombresArchivo.get(i));
-                        indexCuenta=i+1;
+                        indexCuenta = i + 1;
                         //System.out.println("LE ASIGNE "+ indexCuenta);
                     }
                 }
                 btnSiguiente.setEnabled(true);
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             System.out.println("INDICE " + indexCuenta);
-            System.out.println("TOTAL " + totalCuenta );
-           
-            if(indexCuenta==totalCuenta){
+            System.out.println("TOTAL " + totalCuenta);
+
+            if (indexCuenta == totalCuenta) {
                 this.btnSiguiente.setEnabled(false);
             }
-            if(fieldCuenta.getText()!=null){
-                if(!fieldCuenta.getText().equals("")){
+            if (fieldCuenta.getText() != null) {
+                if (!fieldCuenta.getText().equals("")) {
                     btnEditar.setEnabled(true);
                     btnActualizar.setEnabled(true);
                 }
@@ -733,115 +816,117 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnMenuImportarCuentaActionPerformed
 
-    private String getIdDisposicionPorDescripcion(String descripcion){
-        try{
+    private String getIdDisposicionPorDescripcion(String descripcion) {
+        try {
             List cuenta = new ArrayList();
             cuenta = CargarProperties.getCaso(path, name);
             List<String> disposiciones = new ArrayList<String>();
-            String sql = "select * from cobros.disposicion where descripcion = '"+descripcion+"'";
+            String sql = "select * from cobros.disposicion where descripcion = '" + descripcion + "'";
             ResultSet rs = dataBase.getResultSet(sql);
-            while(rs.next()){
-                if(!disposiciones.contains(rs.getString("id_disposicion"))){
+            while (rs.next()) {
+                if (!disposiciones.contains(rs.getString("id_disposicion"))) {
                     disposiciones.add(rs.getString("id_disposicion"));
                 }
             }
             rs.close();
             return disposiciones.get(0);
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, 
-                    "ERROR 408: No se pudo cargar la disposicion de la cuenta", 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "ERROR 408: No se pudo cargar la disposicion de la cuenta",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
             return "1"; //default
-        }        
+        }
     }
-    private String getIdZonaPorDescripcion(String descripcion){
-        try{
+
+    private String getIdZonaPorDescripcion(String descripcion) {
+        try {
             List cuenta = new ArrayList();
             cuenta = CargarProperties.getCaso(path, name);
             List<String> zonas = new ArrayList<String>();
-            String sql = "select * from cobros.zona where descripcion = "+descripcion;
+            String sql = "select * from cobros.zona where descripcion = " + descripcion;
             ResultSet rs = dataBase.getResultSet(sql);
-            while(rs.next()){
-                if(!zonas.contains(rs.getString("id_zona"))){
+            while (rs.next()) {
+                if (!zonas.contains(rs.getString("id_zona"))) {
                     zonas.add(rs.getString("id_zona"));
                 }
             }
             rs.close();
             return zonas.get(0);
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, 
-                    "ERROR 408: No se pudo cargar la zona de la cuenta", 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "ERROR 408: No se pudo cargar la zona de la cuenta",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
             return "1"; //default
-        }        
+        }
     }
-    private String getDescripcionZonaPorId(String idZona){
-        try{
+
+    private String getDescripcionZonaPorId(String idZona) {
+        try {
             List cuenta = new ArrayList();
             cuenta = CargarProperties.getCaso(path, name);
             List<String> zonas = new ArrayList<String>();
-            String sql = "select * from cobros.zona where id_zona = "+idZona;
+            String sql = "select * from cobros.zona where id_zona = " + idZona;
             ResultSet rs = dataBase.getResultSet(sql);
-            while(rs.next()){
-                if(!zonas.contains(rs.getString("descripcion"))){
+            while (rs.next()) {
+                if (!zonas.contains(rs.getString("descripcion"))) {
                     zonas.add(rs.getString("descripcion"));
                 }
             }
             rs.close();
             return zonas.get(0);
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, 
-                    "ERROR 408: No se pudo cargar la zona de la cuenta", 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "ERROR 408: No se pudo cargar la zona de la cuenta",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
             return "1"; //default
-        }        
+        }
     }
-    
-    private String getDescripcionDisposicionPorId(String idDisposicion){
-        try{
+
+    private String getDescripcionDisposicionPorId(String idDisposicion) {
+        try {
             List cuenta = new ArrayList();
             cuenta = CargarProperties.getCaso(path, name);
             List<String> disposiciones = new ArrayList<String>();
-            System.out.println("HOLAA "+ idDisposicion);
-            String sql = "select * from cobros.disposicion where id_disposicion = "+idDisposicion+"";
+            System.out.println("HOLAA " + idDisposicion);
+            String sql = "select * from cobros.disposicion where id_disposicion = " + idDisposicion + "";
             ResultSet rs = dataBase.getResultSet(sql);
-            while(rs.next()){
-                if(!disposiciones.contains(rs.getString("descripcion"))){
+            while (rs.next()) {
+                if (!disposiciones.contains(rs.getString("descripcion"))) {
                     disposiciones.add(rs.getString("descripcion"));
                 }
             }
             rs.close();
             return disposiciones.get(0);
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, 
-                    "ERROR 408: No se pudo cargar la disposicion de la cuenta", 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "ERROR 408: No se pudo cargar la disposicion de la cuenta",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
             return "1"; //default
-        }        
+        }
     }
-    
-    private String getNombreEmpresaPorId(String idEmpresa){
-        try{
+
+    private String getNombreEmpresaPorId(String idEmpresa) {
+        try {
             List cuenta = new ArrayList();
             cuenta = CargarProperties.getCaso(path, name);
             List<String> empresas = new ArrayList<String>();
-            String sql = "select * from cobros.empresa where id_empresa = "+idEmpresa;
+            String sql = "select * from cobros.empresa where id_empresa = " + idEmpresa;
             ResultSet rs = dataBase.getResultSet(sql);
-            while(rs.next()){
-                if(!empresas.contains(rs.getString("nombre"))){
+            while (rs.next()) {
+                if (!empresas.contains(rs.getString("nombre"))) {
                     empresas.add(rs.getString("nombre"));
                 }
             }
             rs.close();
             return empresas.get(0);
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, 
-                    "ERROR 408: No se pudo cargar la empresa de la cuenta", 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "ERROR 408: No se pudo cargar la empresa de la cuenta",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
             return "1"; //default
-        }        
+        }
     }
-    
+
     public void actualizarFields(List cuentaActual) {
 
         fieldCuenta.setText(cuentaActual.get(0).toString());
@@ -857,80 +942,82 @@ public class MainFrame extends javax.swing.JFrame {
         fieldEmpresa.setText(getNombreEmpresaPorId(cuentaActual.get(11).toString()));
         fieldFechaContrato.setText(cuentaActual.get(12).toString());
         /*if(!rootPaneCheckingEnabled){
-            //comboBoxZona.addItem(getDescripcionZonaPorId(cuentaActual.get(7).toString()));
-            //comboBoxDisposicion.addItem(getDescripcionDisposicionPorId(cuentaActual.get(14).toString()));
-            comboBoxZona.setSelectedItem(getDescripcionZonaPorId(cuentaActual.get(7).toString()));
-        }*/
+         //comboBoxZona.addItem(getDescripcionZonaPorId(cuentaActual.get(7).toString()));
+         //comboBoxDisposicion.addItem(getDescripcionDisposicionPorId(cuentaActual.get(14).toString()));
+         comboBoxZona.setSelectedItem(getDescripcionZonaPorId(cuentaActual.get(7).toString()));
+         }*/
 //        fieldZona.setText(cuentaActual.get(7).toString());
         //cargar elementos comboBoxZona
-        try{
+        try {
             Set<String> zonas = new HashSet<String>();
             String sql = "select * from cobros.zona";
             ResultSet rs = dataBase.getResultSet(sql);
-            while(rs.next()){
-                if(!zonas.contains(rs.getString("descripcion"))){
+            while (rs.next()) {
+                if (!zonas.contains(rs.getString("descripcion"))) {
                     zonas.add(rs.getString("descripcion"));
                 }
             }
-            for(String zona:zonas){
-                if(!zona.equalsIgnoreCase(cuentaActual.get(7).toString())){
+            for (String zona : zonas) {
+                if (!zona.equalsIgnoreCase(cuentaActual.get(7).toString())) {
                     comboBoxZona.addItem(zona);
                 }
-            }    
+            }
             rs.close();
+
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, 
                     "ERROR 408: No se pudo cargar la zona de la cuenta "+e.getMessage(), 
+
                     "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         //cargar elementos comboBoxDisposicion
-        try{
+        try {
             List<String> disposiciones = new ArrayList<String>();
             String sql = "select * from cobros.disposicion";
             ResultSet rs = dataBase.getResultSet(sql);
-            while(rs.next()){
-                if(!disposiciones.contains(rs.getString("descripcion"))){
+            while (rs.next()) {
+                if (!disposiciones.contains(rs.getString("descripcion"))) {
                     disposiciones.add(rs.getString("descripcion"));
                 }
             }
-            for(String disp:disposiciones){
-                if(!disp.equalsIgnoreCase(cuentaActual.get(14).toString())){
+            for (String disp : disposiciones) {
+                if (!disp.equalsIgnoreCase(cuentaActual.get(14).toString())) {
                     comboBoxDisposicion.addItem(disp);
                 }
             }
             rs.close();
-            
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, 
-                    "ERROR 408: No se pudo cargar la disposicion de la cuenta", 
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "ERROR 408: No se pudo cargar la disposicion de la cuenta",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-        
-        try {
-                //dateChooserFechaContrato.setDate((Date) cuentaActual.get(12));
-		Date date = formatter.parse(cuentaActual.get(12).toString());
-		System.out.println(date);
-		System.out.println(formatter.format(date));
- 
-	} catch (ParseException e) {
-		e.printStackTrace();
-	}
-        
-        textAreaObservacion.setText(cuentaActual.get(13).toString());
-    //    fieldDisposicion.setText(cuentaActual.get(14).toString());
-        fieldRecordatorio.setText(cuentaActual.get(15).toString());
-        fieldDescripcionRecordatorio.setText(cuentaActual.get(16).toString());
-        
 
-        if(!rootPaneCheckingEnabled){
+        try {
+            //dateChooserFechaContrato.setDate((Date) cuentaActual.get(12));
+            Date date = formatter.parse(cuentaActual.get(12).toString());
+            System.out.println(date);
+            System.out.println(formatter.format(date));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        textAreaObservacion.setText(cuentaActual.get(13).toString());
+        //    fieldDisposicion.setText(cuentaActual.get(14).toString());
+
+        fieldDescripcionRecordatorio.setText(cuentaActual.get(16).toString());
+
+
+        if (!rootPaneCheckingEnabled) {
             //comboBoxZona.addItem(getDescripcionZonaPorId(cuentaActual.get(7).toString()));
             //comboBoxDisposicion.addItem(getDescripcionDisposicionPorId(cuentaActual.get(14).toString()));
             comboBoxZona.setSelectedItem(getDescripcionZonaPorId(cuentaActual.get(7).toString()));
             comboBoxDisposicion.setSelectedItem(getDescripcionDisposicionPorId(cuentaActual.get(14).toString()));
         }
-        
-        if(fieldCuenta.getText()!=null){
-            if(!fieldCuenta.getText().equals("")){
+
+        if (fieldCuenta.getText() != null) {
+            if (!fieldCuenta.getText().equals("")) {
                 btnEditar.setEnabled(true);
                 btnActualizar.setEnabled(true);
             }
@@ -941,7 +1028,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         IniciarReporte iniciarReporte = new IniciarReporte(dataBase);
         try {
-            iniciarReporte.ejecutarReporte("MisAsignacionesYaRealizadas",userInsertado);
+            iniciarReporte.ejecutarReporte("MisAsignacionesYaRealizadas", userInsertado);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "ERROR 408: No se pudo cargar el reporte", "ERROR", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -950,14 +1037,14 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnMenuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuSalirActionPerformed
         // TODO add your handling code here:
-       System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_btnMenuSalirActionPerformed
 
     private void btnMenuMiPerfilDeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuMiPerfilDeUsuarioActionPerformed
         // TODO add your handling code here:
         IniciarReporte iniciarReporte = new IniciarReporte(dataBase);
         try {
-            iniciarReporte.ejecutarReporte("Agente2",userInsertado);
+            iniciarReporte.ejecutarReporte("Agente2", userInsertado);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "ERROR 408: No se pudo cargar el reporte", "ERROR", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -968,7 +1055,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         IniciarReporte iniciarReporte = new IniciarReporte(dataBase);
         try {
-            iniciarReporte.ejecutarReporte("MisZonas",userInsertado);
+            iniciarReporte.ejecutarReporte("MisZonas", userInsertado);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "ERROR 408: No se pudo cargar el reporte", "ERROR", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -981,7 +1068,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         IniciarReporte iniciarReporte = new IniciarReporte(dataBase);
         try {
-            iniciarReporte.ejecutarReporte("TrackCuenta",userInsertado);
+            iniciarReporte.ejecutarReporte("TrackCuenta", userInsertado);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "ERROR 408: No se pudo cargar el reporte", "ERROR", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -992,7 +1079,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         IniciarReporte iniciarReporte = new IniciarReporte(dataBase);
         try {
-            iniciarReporte.ejecutarReporte("MisRecordatorios",userInsertado);
+            iniciarReporte.ejecutarReporte("MisRecordatorios", userInsertado);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "ERROR 408: No se pudo cargar el reporte", "ERROR", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -1003,7 +1090,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         IniciarReporte iniciarReporte = new IniciarReporte(dataBase);
         try {
-            iniciarReporte.ejecutarReporte("MisEmpresas",userInsertado);
+            iniciarReporte.ejecutarReporte("MisEmpresas", userInsertado);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "ERROR 408: No se pudo cargar el reporte", "ERROR", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -1014,7 +1101,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         IniciarReporte iniciarReporte = new IniciarReporte(dataBase);
         try {
-            iniciarReporte.ejecutarReporte("MisAsignacionesPendientes",userInsertado);
+            iniciarReporte.ejecutarReporte("MisAsignacionesPendientes", userInsertado);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "ERROR 408: No se pudo cargar el reporte", "ERROR", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -1027,33 +1114,31 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
-        
     }//GEN-LAST:event_btnEditarActionPerformed
     private void setAllFieldsTrueOrFalse(boolean b) {
-            fieldNombres.setEditable(false);
-            fieldApellidos.setEditable(false);
-            fieldCedula.setEditable(false);
-            fieldContrato.setEditable(false);
-            fieldCuenta.setEditable(false);
-            fieldDescripcionRecordatorio.setEditable(b);
+        fieldNombres.setEditable(false);
+        fieldApellidos.setEditable(false);
+        fieldCedula.setEditable(false);
+        fieldContrato.setEditable(false);
+        fieldCuenta.setEditable(false);
+        fieldDescripcionRecordatorio.setEditable(b);
 //            fieldDisposicion.setEditable(b);//debe ser dropdown
-            fieldEmpresa.setEditable(false);
-            fieldFechaContrato.setEditable(false);
-            fieldMonto.setEditable(false);
-            fieldRecordatorio.setEditable(b);
-            fieldTel1.setEditable(b);
-            fieldTel2.setEditable(b);
- //           fieldZona.setEditable(b);//debe ser dropdown
-            fieldDir1.setEditable(b);
-            fieldDir2.setEditable(b);
-            textAreaObservacion.setEditable(b);
-            comboBoxDisposicion.setEnabled(b);
-            comboBoxZona.setEnabled(b);
-           // dateChooserFechaContrato.setEnabled(b);
-           // btnEditar.setEnabled(b);
-           // btnActualizar.setEnabled(b);
-  }
-    
+        fieldEmpresa.setEditable(false);
+        fieldFechaContrato.setEditable(false);
+        fieldMonto.setEditable(false);
+        recordatorioSpinner.setVisible(false);
+        fieldTel1.setEditable(b);
+        fieldTel2.setEditable(b);
+        //           fieldZona.setEditable(b);//debe ser dropdown
+        fieldDir1.setEditable(b);
+        fieldDir2.setEditable(b);
+        textAreaObservacion.setEditable(b);
+        comboBoxDisposicion.setEnabled(b);
+        comboBoxZona.setEnabled(b);
+        // dateChooserFechaContrato.setEnabled(b);
+        // btnEditar.setEnabled(b);
+        // btnActualizar.setEnabled(b);
+    }
 
     private void btnEditarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_btnEditarItemStateChanged
         // TODO add your handling code here:
@@ -1068,20 +1153,20 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         // TODO add your handling code here:
-        if(this.btnSiguiente.isValid()){
+        if (this.btnSiguiente.isValid()) {
             int dialogResult, btnDialog;
             Date dateTime = new Date();//SI...SE RETRASA, PERO QUE IMPORTA???
-            
+
             //id_agente
-            ResultSet datosIdAgente = dataBase.getResultSet("select * from cobros.agente where cobros.agente.usuario = '"+userInsertado+"'");
+            ResultSet datosIdAgente = dataBase.getResultSet("select * from cobros.agente where cobros.agente.usuario = '" + userInsertado + "'");
             int idAgente = 0;
-             try{
-                if(datosIdAgente.last()){
+            try {
+                if (datosIdAgente.last()) {
                     idAgente = datosIdAgente.getInt("id_agente");
                     System.out.println("ID AGENTE" + idAgente);
                 }
-            }catch(SQLException ex){
-                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE,null,ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
             //id_disposicion
             //ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.descripcion = '"+fieldDisposicion.getText()+"'");
@@ -1089,56 +1174,55 @@ public class MainFrame extends javax.swing.JFrame {
             cuenta = CargarProperties.getCaso(path, name);
             disposicionEditada = cuenta.get(14).toString();
             //ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.descripcion = '"+disposicionEditada+"'");
-            ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.id_disposicion = "+getIdDisposicionPorDescripcion(comboBoxDisposicion.getSelectedItem().toString())+"");
+            ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.id_disposicion = " + getIdDisposicionPorDescripcion(comboBoxDisposicion.getSelectedItem().toString()) + "");
             int idDisposicion = 0;
-             try{
-                if(datosIdDisposicion.last()){
+            try {
+                if (datosIdDisposicion.last()) {
                     //idDisposicion = datosIdDisposicion.getInt("id_disposicion");
                     idDisposicion = Integer.parseInt(getIdDisposicionPorDescripcion(comboBoxDisposicion.getSelectedItem().toString()));
                     System.out.println("ID DISPOSICION" + idDisposicion);
                 }
-            }catch(SQLException ex){
-                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE,null,ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-             
+
             //id_reminder
-            ResultSet datosIdReminder = dataBase.getResultSet("select * from cobros.reminder where cobros.reminder.descripcion = '"+fieldDescripcionRecordatorio.getText()+"'");
+            ResultSet datosIdReminder = dataBase.getResultSet("select * from cobros.reminder where cobros.reminder.descripcion = '" + fieldDescripcionRecordatorio.getText() + "'");
             int idReminder = 0;
-             try{
-                if(datosIdReminder.last()){
+            try {
+                if (datosIdReminder.last()) {
                     idReminder = datosIdReminder.getInt("id_reminder");
                     System.out.println("ID REMINDER" + idReminder);
                 }
-            }catch(SQLException ex){
-                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE,null,ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             //cuadro confirmacion 
             btnDialog = JOptionPane.YES_NO_OPTION;
-            dialogResult = JOptionPane.showConfirmDialog(rootPane, "Guardar cambios?","Cobros ITLA",btnDialog);
-            if(dialogResult==0){
+            dialogResult = JOptionPane.showConfirmDialog(rootPane, "Guardar cambios?", "Cobros ITLA", btnDialog);
+            if (dialogResult == 0) {
                 //commit
                 dataBase.executeUpdate(
-                "insert into cobros.track_cuenta(id_agente,fecha_hora,id_cuenta,id_disposicion,id_reminder, revisado)" 
-                        + " values(" 
-                
-                //id Track se omite porque esta serial (tiene una secuencia)       
-                + idAgente        //id_agente
-                + ", now()"   //fecha_hora  
-                + ", " + Integer.parseInt(fieldCuenta.getText()) //id_cuenta 
-                + ", " + idDisposicion//id_disposicion
-                + ", " + idReminder//id_reminder
-                + ", 'S'" //REVISADO
-                + ")");
+                        "insert into cobros.track_cuenta(id_agente,fecha_hora,id_cuenta,id_disposicion,id_reminder, revisado)"
+                        + " values("
+                        //id Track se omite porque esta serial (tiene una secuencia)       
+                        + idAgente //id_agente
+                        + ", now()" //fecha_hora  
+                        + ", " + Integer.parseInt(fieldCuenta.getText()) //id_cuenta 
+                        + ", " + idDisposicion//id_disposicion
+                        + ", " + idReminder//id_reminder
+                        + ", 'S'" //REVISADO
+                        + ")");
                 System.out.println("DATOS INSERTADOS!!!");
-                
-            }else{
+
+            } else {
                 //no commit 
             }
             //crear archivo "cuentaXXXR"
-            
+
         }
-        try{
+        try {
             //SIGUIENTE...
             comboBoxDisposicion.removeAllItems();
             comboBoxZona.removeAllItems();
@@ -1146,48 +1230,46 @@ public class MainFrame extends javax.swing.JFrame {
             File[] child;
             File dir = new File(path);
             FileNotFoundException fe = new FileNotFoundException();
-            
+
             child = dir.listFiles();
             totalCuenta = dir.listFiles().length;
-            for(int i=0;i<totalCuenta;i++){
+            for (int i = 0; i < totalCuenta; i++) {
                 cuenta.add(i, child[i].getName());
 //                System.out.println("CONTENIDO CUENTA " + cuenta.get(i));
-                
+
             }
-            if(cuenta.get(indexCuenta).toString().equals("cuenta001.properties")){
-                    System.out.println("CUENTA ("+ 
-                            indexCuenta +
-                            "): "+
-                            cuenta.get(indexCuenta));
-                    
+            if (cuenta.get(indexCuenta).toString().equals("cuenta001.properties")) {
+                System.out.println("CUENTA ("
+                        + indexCuenta
+                        + "): "
+                        + cuenta.get(indexCuenta));
+
             }
-            
+
             if (path == null || name == null) {
                 throw fe;
             }
             //cuenta = CargarProperties.getCaso(path, name);
-            
-            if(indexCuenta<=totalCuenta){
-                System.out.println("CUENTA " + child[indexCuenta].getName() );
+
+            if (indexCuenta <= totalCuenta) {
+                System.out.println("CUENTA " + child[indexCuenta].getName());
                 System.out.println("************");
                 actualizarFields(CargarProperties.getCaso(path, child[indexCuenta].getName().toString()));
                 indexCuenta++;
-                if(indexCuenta==totalCuenta){
+                if (indexCuenta == totalCuenta) {
                     this.btnSiguiente.setEnabled(false);
-                }          
+                }
                 System.out.println("INDICE " + indexCuenta);
-                System.out.println("TOTAL " + totalCuenta );
+                System.out.println("TOTAL " + totalCuenta);
             }
-        }catch(ArrayIndexOutOfBoundsException ax){
+        } catch (ArrayIndexOutOfBoundsException ax) {
             this.btnSiguiente.setEnabled(false);
-        }
-        catch(Exception ex ){
+        } catch (Exception ex) {
             this.btnSiguiente.setEnabled(false);
             ex.printStackTrace();
-        }finally{
-            
+        } finally {
         }
-       
+
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void fieldFechaContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldFechaContratoActionPerformed
@@ -1197,116 +1279,133 @@ public class MainFrame extends javax.swing.JFrame {
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
         //id_agente
-            ResultSet datosIdAgente = dataBase.getResultSet("select * from cobros.agente where cobros.agente.usuario = '"+userInsertado+"'");
-            int idAgente = 0;
-             try{
-                if(datosIdAgente.last()){
-                    idAgente = datosIdAgente.getInt("id_agente");
-                    System.out.println("ID AGENTE " + idAgente);
-                }
-            }catch(SQLException ex){
-                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE,null,ex);
+        ResultSet datosIdAgente = dataBase.getResultSet("select * from cobros.agente where cobros.agente.usuario = '" + userInsertado + "'");
+        int idAgente = 0;
+        try {
+            if (datosIdAgente.last()) {
+                idAgente = datosIdAgente.getInt("id_agente");
+                System.out.println("ID AGENTE " + idAgente);
             }
-            //id_disposicion
-            //ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.descripcion = '"+fieldDisposicion.getText()+"'");
-            System.out.println("DISPOSICION SELECCIONADA "+comboBoxDisposicion.getSelectedItem().toString());
-            System.out.println("ID DISPOSICION SELECCIONADA "+getIdDisposicionPorDescripcion(comboBoxDisposicion.getSelectedItem().toString()));
-            
-            ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.id_disposicion = "+getIdDisposicionPorDescripcion(comboBoxDisposicion.getSelectedItem().toString())+"");
-            int idDisposicion = 0;
-             try{
-                if(datosIdDisposicion.last()){
-                    //idDisposicion = datosIdDisposicion.getInt("id_disposicion");
-                    idDisposicion = Integer.parseInt(getIdDisposicionPorDescripcion(comboBoxDisposicion.getSelectedItem().toString()));
-                    System.out.println("ID DISPOSICION " + idDisposicion);
-                }
-            }catch(SQLException ex){
-                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE,null,ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //id_disposicion
+        //ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.descripcion = '"+fieldDisposicion.getText()+"'");
+        System.out.println("DISPOSICION SELECCIONADA " + comboBoxDisposicion.getSelectedItem().toString());
+        System.out.println("ID DISPOSICION SELECCIONADA " + getIdDisposicionPorDescripcion(comboBoxDisposicion.getSelectedItem().toString()));
+
+        ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.id_disposicion = " + getIdDisposicionPorDescripcion(comboBoxDisposicion.getSelectedItem().toString()) + "");
+        int idDisposicion = 0;
+        try {
+            if (datosIdDisposicion.last()) {
+                //idDisposicion = datosIdDisposicion.getInt("id_disposicion");
+                idDisposicion = Integer.parseInt(getIdDisposicionPorDescripcion(comboBoxDisposicion.getSelectedItem().toString()));
+                System.out.println("ID DISPOSICION " + idDisposicion);
             }
-            //id_zona
-            //ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.descripcion = '"+fieldDisposicion.getText()+"'");
-            System.out.println("ZONA SELECCIONADA "+comboBoxZona.getSelectedItem().toString());
-            ResultSet datosIdZona = dataBase.getResultSet("select * from cobros.zona where cobros.zona.descripcion = '"+comboBoxZona.getSelectedItem().toString()+"'");
-            int idZona = 0;
-             try{
-                if(datosIdZona.last()){
-                    idZona = datosIdZona.getInt("id_zona");
-                    System.out.println("ID ZONA " + idDisposicion);
-                    System.out.println("IDZONA " + idZona);
-                }
-            }catch(SQLException ex){
-                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE,null,ex);
-            } 
-            //id_reminder
-            ResultSet datosIdReminder = dataBase.getResultSet("select * from cobros.reminder where cobros.reminder.descripcion = '"+fieldDescripcionRecordatorio.getText()+"'");
-            int idReminder = 0;
-             try{
-                if(datosIdReminder.last()){
-                    idReminder = datosIdReminder.getInt("id_reminder");
-                    System.out.println("ID REMINDER " + idReminder);
-                }
-            }catch(SQLException ex){
-                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE,null,ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //id_zona
+        //ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.descripcion = '"+fieldDisposicion.getText()+"'");
+        System.out.println("ZONA SELECCIONADA " + comboBoxZona.getSelectedItem().toString());
+        ResultSet datosIdZona = dataBase.getResultSet("select * from cobros.zona where cobros.zona.descripcion = '" + comboBoxZona.getSelectedItem().toString() + "'");
+        int idZona = 0;
+        try {
+            if (datosIdZona.last()) {
+                idZona = datosIdZona.getInt("id_zona");
+                System.out.println("ID ZONA " + idDisposicion);
+                System.out.println("IDZONA " + idZona);
             }
-            
-            //commit
-             //DUDA: SE PUEDEN EDITAR TODOS LOS CAMPOS??? NO
-             //hacer dropdown disposicion, zona
-             //hacer calendar recordatorio y hacer insert aqui y luego update a su descripcion segun el id que debe ser generado automaticamente
-            dataBase.executeUpdate("update cobros.cuenta set tel1 = '"
-                    + fieldTel1.getText()
-                    + "', tel2 = '" 
-                    + fieldTel2.getText()
-                    + "', fecha_contrato = '" 
-                    + fieldFechaContrato.getText()
-                    + "', dir1 = '"
-                    + fieldDir1.getText()
-                    + "', dir2 = '"
-                    + fieldDir2.getText()
-                    + "', id_zona = "
-                    + idZona
-                    + ", comentario = '"
-                    + textAreaObservacion.getText().toString()
-                    + "' where id_cuenta = "
-                    + Integer.parseInt(fieldCuenta.getText()) 
-                    + " ");
-            //hacer insert a track_cuenta
-            dataBase.executeUpdate(
-                "insert into cobros.track_cuenta(id_agente,fecha_hora,id_cuenta,id_disposicion,id_reminder,revisado)" 
-                        + " values(" 
-                
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //id_reminder
+        ResultSet datosIdReminder = dataBase.getResultSet("select * from cobros.reminder where cobros.reminder.descripcion = '" + fieldDescripcionRecordatorio.getText() + "'");
+        int idReminder = 0;
+        try {
+            if (datosIdReminder.last()) {
+                idReminder = datosIdReminder.getInt("id_reminder");
+                System.out.println("ID REMINDER " + idReminder);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        //commit
+        //DUDA: SE PUEDEN EDITAR TODOS LOS CAMPOS??? NO
+        //hacer dropdown disposicion, zona
+        //hacer calendar recordatorio y hacer insert aqui y luego update a su descripcion segun el id que debe ser generado automaticamente
+        dataBase.executeUpdate("update cobros.cuenta set tel1 = '"
+                + fieldTel1.getText()
+                + "', tel2 = '"
+                + fieldTel2.getText()
+                + "', fecha_contrato = '"
+                + fieldFechaContrato.getText()
+                + "', dir1 = '"
+                + fieldDir1.getText()
+                + "', dir2 = '"
+                + fieldDir2.getText()
+                + "', id_zona = "
+                + idZona
+                + ", comentario = '"
+                + textAreaObservacion.getText().toString()
+                + "' where id_cuenta = "
+                + Integer.parseInt(fieldCuenta.getText())
+                + " ");
+        //hacer insert a track_cuenta
+        dataBase.executeUpdate(
+                "insert into cobros.track_cuenta(id_agente,fecha_hora,id_cuenta,id_disposicion,id_reminder,revisado)"
+                + " values("
                 //id Track se omite porque esta serial (tiene una secuencia)       
-                + idAgente        //id_agente
-                + ", now()"   //fecha_hora  
+                + idAgente //id_agente
+                + ", now()" //fecha_hora  
                 + ", " + Integer.parseInt(fieldCuenta.getText()) //id_cuenta 
                 + ", " + idDisposicion//id_disposicion
                 + ", " + idReminder//id_reminder
                 + ", 'S'" //revisado
                 + ")");
-            System.out.println("DATOS INSERTADOS!!!");
-          
-            //crear archivo "cuentaXXXR"
-    }//GEN-LAST:event_btnActualizarActionPerformed
+        System.out.println("DATOS INSERTADOS!!!");
 
-   
+        //crear archivo "cuentaXXXR"
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void comboBoxDisposicionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxDisposicionActionPerformed
         // TODO add your handling code here:
-        
-        
     }//GEN-LAST:event_comboBoxDisposicionActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
+
         CuentasFrame cf = new CuentasFrame(dataBase);
         cf.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
-    
-    
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox1StateChanged
+
+    private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.DESELECTED) {
+            recordatorioSpinner.setVisible(false);
+            checkRecordatorio = false;
+        } else {
+            recordatorioSpinner.setVisible(true);
+            checkRecordatorio = true;
+        }
+    }//GEN-LAST:event_jCheckBox1ItemStateChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+        repartirCuentas();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JToggleButton btnEditar;
@@ -1335,10 +1434,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField fieldFechaContrato;
     private javax.swing.JTextField fieldMonto;
     private javax.swing.JTextField fieldNombres;
-    private javax.swing.JTextField fieldRecordatorio;
     private javax.swing.JTextField fieldTel1;
     private javax.swing.JTextField fieldTel2;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1360,10 +1460,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JLabel lbCedula;
     private javax.swing.JLabel lbCuenta;
     private javax.swing.JLabel lblUserLogged;
+    private javax.swing.JSpinner recordatorioSpinner;
     private javax.swing.JTextArea textAreaObservacion;
     // End of variables declaration//GEN-END:variables
 }
