@@ -4,6 +4,7 @@
  */
 package com.itla.cobros;
 
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -94,4 +96,17 @@ public class ConectarPostgre {
         }
     }
     
+    // metodo para ejecutar update, insert o delete
+    public void executeUpdate(String query){
+        Component JButton = null;
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("** Error de Base de datos 2**\n"+ex.getMessage());
+            JOptionPane.showMessageDialog(JButton, "La Base De Datos No Esta En Servicio","Aviso", JOptionPane.INFORMATION_MESSAGE);
+      
+        }
+    }
 }

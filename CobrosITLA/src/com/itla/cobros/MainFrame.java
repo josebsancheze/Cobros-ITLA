@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -544,19 +545,142 @@ public class MainFrame extends javax.swing.JFrame {
             this.path = path;
             this.name = name;
             List cuenta = new ArrayList();
-            //cuenta = CargarProperties.getCaso(path, name);
-            cuenta = CargarCSV.getCaso(path,name);
-                    
-            for (Object obj : cuenta) {
-                System.out.print(obj);
-                System.out.println(",");
-            }
+            List cuentaACargar = new ArrayList();
+            String selectCuentas = "select * from cobros.cuenta";
+            String selectCantCuentas = "select count(*) from cobros.cuenta";
+            ResultSet rs = null;
+            long countCuentas = 0;
+            long countCuentasCSV = 0;
+            Map<String,Integer> casos = new HashMap<String, Integer>();
             
+            //cuenta = CargarProperties.getCaso(path, name);
+            cuenta = CargarCSV.getCaso(path,name);//datos especificos de la cuenta
+            casos = CargarCSV.getCasos(path, name);//datos de LAS CUENTAS
+            countCuentasCSV = CargarCSV.cantCasos;//conseguir cantidad de cuentas en el csv
+            
+            //aqui se sacan las de la BD -_-
+            try {
+                rs = dataBase.getResultSet(selectCantCuentas);
+                while(rs.next()){
+                    countCuentas = rs.getLong("count");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+                if(rs != null){
+                    try{
+                        rs.close();
+                    }catch(SQLException ex){
+                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+
+            //recorrer el archivo
+            //este mapa tiene las cuentas ya agregadas a la BD
+            Map<String,Integer> mapaCuentas = new HashMap<String,Integer>();
+            Map<String,Object> mapaReal = new HashMap<String,Object>();
+            List cuentaNueva = new ArrayList<>();
+            cuentaNueva = CargarCSV.getCaso(path, name);
+            mapaReal = CargarCSV.getCasos2(path, name);
+            try {
+                int idCuenta = 0;
+                //consigo las cuentas ya agregadas
+                rs = dataBase.getResultSet(selectCuentas);
+                while(rs.next()){
+                    mapaCuentas.put("id_cuenta",rs.getInt("id_cuenta"));
+                }
+            }catch(Exception e){
+                
+            }
+                
+                //determino cuales debo agregar comparando lo del csv con la BD
+                for (Map.Entry<String, Object> entry : mapaReal.entrySet()) {
+                    System.out.println("Cuenta2= " 
+                        + entry.getKey() + " , Contenido2="
+                        + entry.getValue() + "]" );
+                    cuentaNueva = CargarCSV.getCasoEspecifico(path, name, entry.getKey());
+                    System.out.println("CEDULA" + cuentaNueva.get(5));
+                    if(!mapaCuentas.containsValue(Integer.parseInt(entry.getKey()))){
+                        System.out.println("BA BA BAM BAM");
+                        try{
+                        dataBase.executeUpdate( 
+                                "INSERT INTO cobros.cuenta(\n"
+                                + "id_cuenta, cedula, nommbre, apellido, tel1, tel2, dir1, dir2, \n"
+                                + "id_zona, fecha_ingreso, no_contrato, fecha_contrato, estatus, \n"
+                                + "id_empresa, monto_deuda, comentario)\n"
+                                + "VALUES ("
+                                + cuentaNueva.get(0).toString() + //0
+                                ",'"
+                                + cuentaNueva.get(1).toString() + //1 cedula
+                                "','"
+                                + cuentaNueva.get(2).toString() + //2 nommbre
+                                "','"
+                                + cuentaNueva.get(3).toString() + //3 apellido
+                                "','"
+                                + cuentaNueva.get(5).toString() + //4 tel1
+                                "','"
+                                + cuentaNueva.get(6).toString() + //5 tel2
+                                "','"
+                                + cuentaNueva.get(7).toString() + //6 dir1
+                                "','"
+                                + cuentaNueva.get(8).toString() + //7 dir2
+                                "',"
+                                + cuentaNueva.get(9).toString() + //8 id_zona
+                                ",'"
+                                + cuentaNueva.get(12).toString() + //9 fecha_ingreso
+                                "',"
+                                + cuentaNueva.get(4).toString() + //10 no_contrato
+                                ",'"
+                                + cuentaNueva.get(12).toString() + //11 fecha_contrato
+                                "','"
+                                + "A" + //12 estatus
+                                "',"
+                                + cuentaNueva.get(12).toString() + //13 id_empresa
+                                ","
+                                + cuentaNueva.get(11).toString() + //14 monto_deuda
+                                ",'"
+                                + cuentaNueva.get(15).toString() + //15 comentario
+                                "');");
+                        }catch(Exception e){
+                            JOptionPane.showMessageDialog(this,"ERROR CARGANDO LAS NUEVAS CUENTAS","Loading Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                        }
+                        System.out.println("EXITO");
+                }else{
+                        System.out.println("BOOHOO");
+                        try{
+                            dataBase.executeUpdate("UPDATE cobros.cuenta\n"
+                                    + " SET cedula='" + cuentaNueva.get(1).toString()
+                                    + "', nommbre='" + cuentaNueva.get(2).toString()
+                                    + "', apellido='" + cuentaNueva.get(3).toString()
+                                    + "', no_contrato=" + cuentaNueva.get(4).toString()
+                                    + ", tel1='" + cuentaNueva.get(5).toString()
+                                    + "', tel2='" + cuentaNueva.get(6).toString()
+                                    + "', dir1='" + cuentaNueva.get(7).toString()
+                                    + "', dir2='" + cuentaNueva.get(8).toString()
+                                    + "', id_zona=" + cuentaNueva.get(9).toString()
+                                    + ", fecha_ingreso='" + cuentaNueva.get(12).toString() + //arreglar
+                                    "', fecha_contrato='" + cuentaNueva.get(12).toString()
+                                    + "', estatus='" + "A"
+                                    + "', id_empresa=" + cuentaNueva.get(12).toString()
+                                    + ", monto_deuda=" + cuentaNueva.get(11).toString()
+                                    + ", comentario='" + cuentaNueva.get(15).toString()
+                                    + "' WHERE id_cuenta = " + cuentaNueva.get(0).toString());
+                            System.out.println("SETEAO");
+                        }catch(Exception e){
+                            JOptionPane.showMessageDialog(this,"ERROR ACTUALIZANDO LAS CUENTAS","Updating Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+            }
+                
+               
             actualizarFields(cuenta);
             //comboBoxZona.setSelectedItem(getDescripcionZonaPorId(cuenta.get(7).toString()));
             //comboBoxDisposicion.setSelectedItem(getDescripcionDisposicionPorId(cuenta.get(14).toString()));
             //btnSiguiente.setEnabled(true);
-            comboBoxZona.setSelectedItem(getDescripcionZonaPorId(cuenta.get(7).toString()));
+            comboBoxZona.setSelectedItem(getDescripcionZonaPorId(cuenta.get(9).toString()));
             comboBoxDisposicion.setSelectedItem(getDescripcionDisposicionPorId(cuenta.get(14).toString()));
             
             
@@ -748,7 +872,7 @@ public class MainFrame extends javax.swing.JFrame {
             rs.close();
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, 
-                    "ERROR 408: No se pudo cargar la zona de la cuenta", 
+                    "ERROR 408: No se pudo cargar la zona de la cuenta "+e.getMessage(), 
                     "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         //cargar elementos comboBoxDisposicion

@@ -9,6 +9,7 @@ import java.sql.ResultSetMetaData;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import org.jdesktop.layout.GroupLayout;
 
 /**
  *
