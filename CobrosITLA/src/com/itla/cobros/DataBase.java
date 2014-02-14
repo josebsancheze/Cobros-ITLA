@@ -55,7 +55,7 @@ public class DataBase {
             return rs;
         } catch (SQLException ex) {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("** Error de Base de datos **\n"+ex.getMessage());
+            System.err.println("** Error de Base de datos 1**\n"+ex.getMessage());
             return null;
         }
     }
@@ -68,7 +68,7 @@ public class DataBase {
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("** Error de Base de datos **\n"+ex.getMessage());
+            System.err.println("** Error de Base de datos 2**\n"+ex.getMessage());
             JOptionPane.showMessageDialog(JButton, "La Base De Datos No Esta En Servicio","Aviso", JOptionPane.INFORMATION_MESSAGE);
       
         }

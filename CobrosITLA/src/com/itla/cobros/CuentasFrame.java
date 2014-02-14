@@ -6,8 +6,6 @@ package com.itla.cobros;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
