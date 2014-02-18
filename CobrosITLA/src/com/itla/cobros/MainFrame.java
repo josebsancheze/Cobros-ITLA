@@ -21,7 +21,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -60,6 +62,8 @@ public class MainFrame extends javax.swing.JFrame {
         btnSiguiente.setEnabled(false);
         btnEditar.setEnabled(false);
         btnActualizar.setEnabled(false);
+        jCheckBox1.setEnabled(false);
+        btnCrearRecordatorio.setEnabled(false);
 
     }
 
@@ -117,12 +121,12 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         listHistorial = new javax.swing.JList();
+        btnCrearRecordatorio = new javax.swing.JButton();
         lblUserLogged = new javax.swing.JLabel();
         btnEditar = new javax.swing.JToggleButton();
         btnActualizar = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnMenuArchivo = new javax.swing.JMenu();
         btnMenuImportarCuenta = new javax.swing.JMenuItem();
@@ -255,12 +259,14 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel19.setFont(new java.awt.Font("Lucida Bright", 1, 13)); // NOI18N
         jLabel19.setText("Historial");
 
-        listHistorial.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(listHistorial);
+
+        btnCrearRecordatorio.setText("Crear Recordatorio");
+        btnCrearRecordatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearRecordatorioActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout jInternalFrame1Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame1.getContentPane());
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
@@ -269,170 +275,184 @@ public class MainFrame extends javax.swing.JFrame {
             .add(jInternalFrame1Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jInternalFrame1Layout.createSequentialGroup()
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel17)
+                            .add(jLabel19))
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jInternalFrame1Layout.createSequentialGroup()
+                                .add(4, 4, 4)
+                                .add(fieldDir2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 203, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .add(jInternalFrame1Layout.createSequentialGroup()
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 570, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .add(jInternalFrame1Layout.createSequentialGroup()
                         .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jInternalFrame1Layout.createSequentialGroup()
                                 .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(lbCuenta)
+                                    .add(jLabel2)
+                                    .add(jLabel3)
+                                    .add(jLabel4)
+                                    .add(jLabel15))
+                                .add(18, 18, 18)
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(jInternalFrame1Layout.createSequentialGroup()
-                                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(lbCuenta)
-                                            .add(jLabel2)
-                                            .add(jLabel3)
-                                            .add(jLabel4)
-                                            .add(jLabel15))
+                                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                            .add(fieldCedula, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 191, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                            .add(fieldNombres, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 191, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                            .add(fieldApellidos, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 191, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                        .add(18, 18, 18)
                                         .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                             .add(jInternalFrame1Layout.createSequentialGroup()
-                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .add(fieldCuenta, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 191, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                                                    .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                        .add(jLabel10)
+                                                        .add(jLabel11))
+                                                    .add(jInternalFrame1Layout.createSequentialGroup()
+                                                        .add(jLabel12)
+                                                        .add(26, 26, 26)))
+                                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                                    .add(jInternalFrame1Layout.createSequentialGroup()
+                                                        .add(3, 3, 3)
+                                                        .add(fieldFechaContrato, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 241, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                                    .add(jScrollPane1)
+                                                    .add(comboBoxDisposicion, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                            .add(jInternalFrame1Layout.createSequentialGroup()
+                                                .add(jLabel9)
+                                                .add(49, 49, 49)
+                                                .add(fieldEmpresa, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 241, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                                    .add(jInternalFrame1Layout.createSequentialGroup()
+                                        .add(fieldCuenta, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 191, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                        .add(18, 18, 18)
+                                        .add(jLabel1)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .add(fieldMonto, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 241, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                    .add(fieldObservacion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 558, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                            .add(jInternalFrame1Layout.createSequentialGroup()
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(jInternalFrame1Layout.createSequentialGroup()
+                                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                            .add(jLabel5)
+                                            .add(jLabel6)
+                                            .add(jLabel7)
+                                            .add(jLabel8))
+                                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                            .add(jInternalFrame1Layout.createSequentialGroup()
+                                                .add(7, 7, 7)
+                                                .add(comboBoxZona, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 203, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                                             .add(jInternalFrame1Layout.createSequentialGroup()
                                                 .add(18, 18, 18)
                                                 .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldNombres)
-                                                    .add(fieldCedula)
-                                                    .add(jInternalFrame1Layout.createSequentialGroup()
-                                                        .add(fieldApellidos, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 191, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                                        .add(0, 0, Short.MAX_VALUE))))))
+                                                    .add(fieldTel2)
+                                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldTel1)
+                                                    .add(fieldContrato))))
+                                        .add(18, 18, 18)
+                                        .add(jLabel13))
                                     .add(jInternalFrame1Layout.createSequentialGroup()
                                         .add(jLabel16)
                                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(fieldDir1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 203, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                                        .add(fieldDir1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 203, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                        .add(18, 18, 18)
+                                        .add(jLabel14)))
                                 .add(18, 18, 18)
                                 .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(jLabel1)
-                                    .add(jLabel9)
-                                    .add(jLabel10)
-                                    .add(jLabel11)
-                                    .add(jLabel14)
-                                    .add(jLabel13)
-                                    .add(jLabel12)))
-                            .add(jInternalFrame1Layout.createSequentialGroup()
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(jLabel5)
-                                    .add(jLabel6)
-                                    .add(jLabel7)
-                                    .add(jLabel8))
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                                     .add(jInternalFrame1Layout.createSequentialGroup()
-                                        .add(7, 7, 7)
-                                        .add(comboBoxZona, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 203, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                        .add(fieldDescripcionRecordatorio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 232, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .add(jInternalFrame1Layout.createSequentialGroup()
-                                        .add(18, 18, 18)
-                                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(fieldTel2)
-                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldTel1)
-                                            .add(fieldContrato)))))
-                            .add(jInternalFrame1Layout.createSequentialGroup()
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(jLabel17)
-                                    .add(jLabel19))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(fieldDir2)
-                                    .add(jScrollPane2))))
-                        .add(6, 6, 6)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                .add(jInternalFrame1Layout.createSequentialGroup()
-                                    .add(182, 182, 182)
-                                    .add(lbCedula, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 59, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .add(comboBoxDisposicion, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldDescripcionRecordatorio)
-                                .add(jScrollPane1)
-                                .add(fieldEmpresa)
-                                .add(fieldMonto)
-                                .add(fieldFechaContrato))
-                            .add(jInternalFrame1Layout.createSequentialGroup()
-                                .add(2, 2, 2)
-                                .add(jCheckBox1)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(recordatorioSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 205, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jInternalFrame1Layout.createSequentialGroup()
-                        .add(0, 0, Short.MAX_VALUE)
-                        .add(fieldObservacion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 558, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                                        .add(jCheckBox1)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                        .add(recordatorioSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 205, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                        .add(0, 0, Short.MAX_VALUE))))
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jInternalFrame1Layout.createSequentialGroup()
+                                .add(0, 0, Short.MAX_VALUE)
+                                .add(btnCrearRecordatorio)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(lbCedula, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 59, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jInternalFrame1Layout.createSequentialGroup()
-                .add(32, 32, 32)
-                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(fieldObservacion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel15))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(jInternalFrame1Layout.createSequentialGroup()
                         .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(lbCuenta)
-                            .add(fieldCuenta, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel1))
-                        .add(6, 6, 6)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel2)
-                            .add(fieldCedula, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel9))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel3)
-                            .add(fieldNombres, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel4)
-                            .add(fieldApellidos, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel5)
-                            .add(fieldContrato, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel6)
-                            .add(fieldTel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel7)
-                            .add(fieldTel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                    .add(jInternalFrame1Layout.createSequentialGroup()
-                        .add(fieldMonto, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(6, 6, 6)
-                        .add(fieldEmpresa, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel10)
-                            .add(fieldFechaContrato, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(jLabel15)
+                            .add(fieldObservacion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel11)
-                            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 102, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(jInternalFrame1Layout.createSequentialGroup()
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                    .add(lbCuenta)
+                                    .add(fieldCuenta, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(jLabel1)
+                                    .add(fieldMonto, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(6, 6, 6)
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                    .add(jLabel2)
+                                    .add(fieldCedula, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(jLabel9)
+                                    .add(fieldEmpresa, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                    .add(jLabel3)
+                                    .add(fieldNombres, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(jLabel10)
+                                    .add(fieldFechaContrato, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                    .add(jLabel4)
+                                    .add(fieldApellidos, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(jLabel11))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                    .add(jLabel5)
+                                    .add(fieldContrato, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                    .add(jLabel6)
+                                    .add(fieldTel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                    .add(jLabel7)
+                                    .add(fieldTel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                            .add(jInternalFrame1Layout.createSequentialGroup()
+                                .add(78, 78, 78)
+                                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 102, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                    .add(comboBoxDisposicion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(jLabel12))))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(comboBoxDisposicion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel12))))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jInternalFrame1Layout.createSequentialGroup()
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel8)
-                            .add(comboBoxZona, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel16)
-                            .add(fieldDir1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel13)
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                .add(jLabel8)
+                                .add(comboBoxZona, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(jLabel13))
                             .add(jCheckBox1)))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, recordatorioSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(recordatorioSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(11, 11, 11)
+                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel16)
+                    .add(fieldDir1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(fieldDescripcionRecordatorio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel17)
+                    .add(fieldDir2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(btnCrearRecordatorio))
+                .add(8, 8, 8)
                 .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jInternalFrame1Layout.createSequentialGroup()
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(jLabel17)
-                            .add(fieldDir2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(fieldDescripcionRecordatorio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel19)
-                            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 58, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(26, Short.MAX_VALUE))
+                        .add(jLabel19)
+                        .addContainerGap())
                     .add(jInternalFrame1Layout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED, 15, Short.MAX_VALUE)
                         .add(lbCedula))))
         );
 
@@ -469,13 +489,6 @@ public class MainFrame extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Repartir Cuentas");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
             }
         });
 
@@ -569,22 +582,22 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jSeparator1)
-                    .add(jInternalFrame1)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(6, 6, 6)
-                        .add(jButton1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jButton2)
-                        .add(165, 165, 165)
-                        .add(btnEditar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnActualizar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(btnSiguiente, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(0, 0, Short.MAX_VALUE)
                         .add(lblUserLogged, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 113, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(12, 12, 12)))
+                        .add(12, 12, 12))
+                    .add(layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jInternalFrame1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(layout.createSequentialGroup()
+                                .add(jButton1)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(btnEditar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(btnActualizar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(btnSiguiente, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -599,7 +612,6 @@ public class MainFrame extends javax.swing.JFrame {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnEditar)
                     .add(jButton1)
-                    .add(jButton2)
                     .add(btnActualizar)
                     .add(btnSiguiente))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -619,15 +631,25 @@ public class MainFrame extends javax.swing.JFrame {
 
             String sqlAgentes = "select cobros.agente.id_agente from cobros.agente where cobros.agente.activo = 'S'";
             ResultSet rs2 = dataBase.getResultSet(sqlAgentes);
-
+            
+            ResultSet rs3 = dataBase.getResultSet(sqlCuentas);
+            List<Integer> cuentasYaAgregadas = new ArrayList<Integer>();
+            
             while (rs.next()) 
                 ++cuentas;       
             
             while (rs2.next()) 
                 ++agentes;
+
+            while (rs3.next()){
+                if(!cuentasYaAgregadas.contains(rs3.getInt("id_cuenta"))){
+                    cuentasYaAgregadas.add(rs3.getInt("id_cuenta"));
+                }
+            }
             
             rs.beforeFirst();
             rs2.beforeFirst();
+            rs3.beforeFirst();
             
             System.out.println("Hay: "+cuentas+" cuentas y "+agentes+" agentes");
             
@@ -635,9 +657,16 @@ public class MainFrame extends javax.swing.JFrame {
                 while(rs2.next()){ // siguiente agente                  
                     cuentaNow = rs.getInt("id_cuenta");
                     agenteNow = rs2.getInt("id_agente");
-                    System.out.println("Se van a insertar: "+rs2.getInt("id_agente")+","+rs.getInt("id_cuenta"));
-                    String sqlInsert = "insert into cobros.agentescuentas (id_agente, id_cuenta) values(" + agenteNow + "," + cuentaNow + ")";
-                    dataBase.executeUpdate(sqlInsert);
+                    System.out.println("CONTIENE? " + cuentasYaAgregadas.contains(cuentaNow));
+                    if(!cuentasYaAgregadas.contains(cuentaNow)){
+                        System.out.println("Se van a insertar: "+rs2.getInt("id_agente")+","+rs.getInt("id_cuenta"));
+                        String sqlInsert = "insert into cobros.agentescuentas (id_agente, id_cuenta) values(" + agenteNow + "," + cuentaNow + ")";
+                        dataBase.executeUpdate(sqlInsert);
+                    }else{
+                        System.out.println("Se van a actualizar: "+rs2.getInt("id_agente")+","+rs.getInt("id_cuenta"));
+                        String sqlUpdate2 = "update cobros.agentescuentas set id_agente="+ agenteNow+", id_cuenta =" + cuentaNow + "where id_cuenta=" + cuentaNow;
+                        dataBase.executeUpdate(sqlUpdate2);
+                    }
                     rs.next(); // siguiente cuenta
                 }
                 rs.previous();
@@ -667,13 +696,24 @@ public class MainFrame extends javax.swing.JFrame {
             List cuentaACargar = new ArrayList();
             String selectCuentas = "select * from cobros.cuenta";
             String selectCantCuentas = "select count(*) from cobros.cuenta";
+            String selectCuentasAgente = "select * from cobros.agentescuentas";
             ResultSet rs = null;
+            ResultSet rsCuentasAgente = null;
             long countCuentas = 0;
             long countCuentasCSV = 0;
             Map<String,Integer> casos = new HashMap<String, Integer>();
             
+            try {
+                //consigo las cuentas ya agregadas
+                repartirCuentas();
+                rs = dataBase.getResultSet(selectCuentasAgente);
 
-            cuenta = CargarCSV.getCaso(path,name);//datos especificos de la cuenta
+            }catch(Exception e){
+                
+            }
+            
+            cuenta = CargarCSV.getCaso3(path, name, rsCuentasAgente);
+            //cuenta = CargarCSV.getCaso(path,name);//datos especificos de la cuenta
             casos = CargarCSV.getCasos(path, name);//datos de LAS CUENTAS
             countCuentasCSV = CargarCSV.cantCasos;//conseguir cantidad de cuentas en el csv
             
@@ -974,18 +1014,43 @@ public class MainFrame extends javax.swing.JFrame {
         fieldContrato.setText(cuentaActual.get(4).toString());
         fieldTel1.setText(cuentaActual.get(5).toString());
         fieldTel2.setText(cuentaActual.get(6).toString());
-        fieldDir1.setText(cuentaActual.get(8).toString());
-        fieldDir2.setText(cuentaActual.get(9).toString());
+        fieldDir1.setText(cuentaActual.get(7).toString());
+        fieldDir2.setText(cuentaActual.get(8).toString());
         fieldMonto.setText(cuentaActual.get(10).toString());
         fieldEmpresa.setText(getNombreEmpresaPorId(cuentaActual.get(11).toString()));
         fieldFechaContrato.setText(cuentaActual.get(12).toString());
         fieldObservacion.setText(cuentaActual.get(17).toString());
+        
         /*if(!rootPaneCheckingEnabled){
          //comboBoxZona.addItem(getDescripcionZonaPorId(cuentaActual.get(7).toString()));
          //comboBoxDisposicion.addItem(getDescripcionDisposicionPorId(cuentaActual.get(14).toString()));
          comboBoxZona.setSelectedItem(getDescripcionZonaPorId(cuentaActual.get(7).toString()));
          }*/
 //        fieldZona.setText(cuentaActual.get(7).toString());
+        //cargar elementos listHistorial
+        try {
+            //Set<String> tracks = new HashSet<String>();
+            List tracks = new ArrayList<>();
+            String sql = "select * from cobros.track_cuenta where id_cuenta="+cuentaActual.get(0).toString();
+            ResultSet rs = dataBase.getResultSet(sql); 
+            DefaultListModel model = new DefaultListModel();
+            while (rs.next()) {
+                if (!tracks.contains(rs.getInt("id_track_cuenta"))) {
+                    //tracks.add(rs.getInt("id_track_cuenta"));
+                    model.addElement("ID: " + rs.getInt("id_track_cuenta") +
+                                    ", Agente: " + rs.getInt("id_agente") +
+                                    ", Fecha: " + rs.getDate("fecha_hora") +
+                                    ", Comentario: " + rs.getString("comentario"));
+                }
+            }
+            listHistorial.setModel(model);
+            rs.close();
+
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, 
+                    "ERROR 408: No se pudo cargar el Historial de la cuenta "+e.getMessage(), 
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
         //cargar elementos comboBoxZona
         try {
             Set<String> zonas = new HashSet<String>();
@@ -1171,6 +1236,7 @@ public class MainFrame extends javax.swing.JFrame {
         comboBoxDisposicion.setEnabled(b);
         comboBoxZona.setEnabled(b);
         fieldObservacion.setEditable(false);
+        jCheckBox1.setEnabled(b);
         // dateChooserFechaContrato.setEnabled(b);
         // btnEditar.setEnabled(b);
         // btnActualizar.setEnabled(b);
@@ -1208,8 +1274,23 @@ public class MainFrame extends javax.swing.JFrame {
             //ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.descripcion = '"+fieldDisposicion.getText()+"'");
             
             List cuenta = new ArrayList();
+            String selectCuentasAgente = "select * from cobros.agentescuentas";
+            ResultSet rsCuentasAgente = null;
+            try {
+                //consigo las cuentas ya agregadas
+                repartirCuentas();
+                rsCuentasAgente = dataBase.getResultSet(selectCuentasAgente);
+
+            }catch(Exception e){
+                
+            }
+            
+            cuenta = CargarCSV.getCaso3(path, name, rsCuentasAgente);
+            
             //cuenta = CargarProperties.getCaso(path, name);
-            cuenta = CargarCSV.getCaso(path, name);
+            
+            //cuenta = CargarCSV.getCaso(path, name);
+            
             //System.out.println("disposicionEDITADA " + cuenta.get(14).toString());
             //disposicionEditada = cuenta.get(14).toString();
             
@@ -1282,14 +1363,15 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             //SIGUIENTE...
             
-            //comboBoxDisposicion.removeAllItems();
-            //comboBoxZona.removeAllItems();
+            comboBoxDisposicion.removeAllItems();
+            comboBoxZona.removeAllItems();
             
             List siguienteCuenta = new ArrayList();
             if(indiceCaso<totalCuentasParaAgente){
                 System.out.println("CUENTAS ASIGNADAS AL AGENTE LOGUEADO "+ listaCuentasAgente);
                 System.out.println("CUENTA ASIGNADA A CARGAR "+ listaCuentasAgente.get(indiceCaso));
                 siguienteCuenta = CargarCSV.getCasoEspecifico(this.path, this.name,String.valueOf(listaCuentasAgente.get(indiceCaso)));
+                
                 System.out.println("YAURAN " + siguienteCuenta.contains(listaCuentasAgente));//AQUI HAY ERROR!!!!
                 actualizarFields(siguienteCuenta);//cargar siguientes valores al form //AQUI TAMBINE
                 System.out.println("BOOM!!!");
@@ -1330,6 +1412,7 @@ public class MainFrame extends javax.swing.JFrame {
             
         } catch (ArrayIndexOutOfBoundsException ax) {
             this.btnSiguiente.setEnabled(false);
+            ax.printStackTrace();
         } catch (Exception ex) {
             this.btnSiguiente.setEnabled(false);
             ex.printStackTrace();
@@ -1443,28 +1526,27 @@ public class MainFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        
-        repartirCuentas();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void fieldObservacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldObservacionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldObservacionActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == evt.DESELECTED) {
             recordatorioSpinner.setVisible(false);
+            fieldDescripcionRecordatorio.setVisible(false);
+            btnCrearRecordatorio.setEnabled(false);
             checkRecordatorio = false;
         } else {
             recordatorioSpinner.setVisible(true);
+            fieldDescripcionRecordatorio.setVisible(true);
             checkRecordatorio = true;
+            btnCrearRecordatorio.setEnabled(true);
         }
     }//GEN-LAST:event_jCheckBox1ItemStateChanged
 
@@ -1484,8 +1566,30 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldCedulaActionPerformed
 
+    private void btnCrearRecordatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearRecordatorioActionPerformed
+        // TODO add your handling code here:
+        if(checkRecordatorio){
+        Date time = (Date) recordatorioSpinner.getValue();
+        System.out.println("" + time);
+        String descripcion = fieldDescripcionRecordatorio.getText();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+        String date = sdf.format(time);
+        System.out.println(date); //15/10/2013
+            try {
+                String sql = "insert into cobros.reminder(descripcion, fecha_a_aplicar) values('" + descripcion + "','" + date + "') ";
+                dataBase.executeUpdate(sql);
+            } catch (Exception ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            System.out.println("No ha seleccionado el checkbox");
+        }
+    }//GEN-LAST:event_btnCrearRecordatorioActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnCrearRecordatorio;
     private javax.swing.JToggleButton btnEditar;
     private javax.swing.JMenu btnMenuArchivo;
     private javax.swing.JMenuItem btnMenuImportarCuenta;
@@ -1516,7 +1620,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField fieldTel1;
     private javax.swing.JTextField fieldTel2;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
