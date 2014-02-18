@@ -33,8 +33,8 @@ public class CuentasFrame extends javax.swing.JFrame {
         System.out.println("llenando la tabla");
 
         try {
-            rs = dataBase.getResultSet("select cobros.cuenta.id_cuenta, cobros.cuenta.cedula, cobros.cuenta.nombre, cobros.cuenta.apellido, cobros.cuenta.monto_deuda, cobros.cuenta.estatus  from cobros.cuenta");
-            ResultSetMetaData metaDatos = rs.getMetaData();
+            rs = dataBase.getResultSet("select cobros.cuenta.id_cuenta, cobros.cuenta.cedula, cobros.cuenta.nombre, cobros.cuenta.apellido, cobros.cuenta.monto_deuda, cobros.cuenta.activo  from cobros.cuenta");
+            ResultSetMetaData metaDatos = rs.getMetaData(); //???
 
             int numeroColumnas = metaDatos.getColumnCount();
             DefaultTableModel modelo = new DefaultTableModel();
@@ -156,7 +156,7 @@ public class CuentasFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         
-         rs = dataBase.getResultSet("select cobros.cuenta.id_cuenta, cobros.cuenta.cedula, cobros.cuenta.nombre, cobros.cuenta.apellido, cobros.cuenta.monto_deuda, cobros.cuenta.estatus  from cobros.cuenta");
+         rs = dataBase.getResultSet("select cobros.cuenta.id_cuenta, cobros.cuenta.cedula, cobros.cuenta.nombre, cobros.cuenta.apellido, cobros.cuenta.monto_deuda, cobros.cuenta.activo  from cobros.cuenta");
 
         int count = 0;
         try {
@@ -180,13 +180,13 @@ public class CuentasFrame extends javax.swing.JFrame {
         for(int i=0; i < count;i++){
             bArray[i] = (boolean) jTable2.getModel().getValueAt(i, 5);
             if(bArray[i]){
-                activo = "A";
+                activo = "S";
             }else{
-                activo = "I";
+                activo = "N";
             }
             cuentas[i] = (int) jTable2.getModel().getValueAt(i, 0);
-            System.out.println("CUENTA: "+cuentas[i]+"Activo: "+bArray[i]);
-            String update = "UPDATE cobros.cuenta SET estatus = '"+activo+"' WHERE cobros.cuenta.id_cuenta = "+cuentas[i]+" ";
+            System.out.println("CUENTA: "+cuentas[i]+" Activo: "+bArray[i]);
+            String update = "UPDATE cobros.cuenta SET activo = '"+activo+"' WHERE cobros.cuenta.id_cuenta = "+cuentas[i]+" ";
             dataBase.executeUpdate(update);
         }
           

@@ -137,6 +137,7 @@ public class LoginFrame extends javax.swing.JFrame {
         
         if(log){
             this.setVisible(false);
+            //MainFrame mf = new MainFrame(dataBase,userInsertado);
             MainFrame mf = new MainFrame(dataBase,userInsertado);
             mf.setVisible(true);
             mf.setLocationRelativeTo(null);

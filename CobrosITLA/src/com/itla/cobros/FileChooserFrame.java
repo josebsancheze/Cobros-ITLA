@@ -4,7 +4,7 @@
  */
 package com.itla.cobros;
 
-import static com.itla.cobros.CuadroSelectorArchivos.parent;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;

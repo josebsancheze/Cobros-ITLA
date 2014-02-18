@@ -36,11 +36,14 @@ public class MainFrame extends javax.swing.JFrame {
     private String name = "";
     private static int indexCuenta = 1;
     private static int totalCuenta = 0;
+    private static int indiceCaso = 0;
     private boolean actualizar = false;
     private boolean revisado = false;
     private boolean checkRecordatorio = false;
     private String disposicionEditada = "";
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+    private static List<Integer> listaCuentasAgente = new ArrayList<Integer>();
+    private static int totalCuentasParaAgente = 0;
     //String dateInString = "7-Jun-2013";
 
     /**
@@ -98,7 +101,7 @@ public class MainFrame extends javax.swing.JFrame {
         fieldMonto = new javax.swing.JTextField();
         fieldEmpresa = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        textAreaObservacion = new javax.swing.JTextArea();
+        textAreaComentario = new javax.swing.JTextArea();
         fieldFechaContrato = new javax.swing.JTextField();
         fieldDescripcionRecordatorio = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
@@ -109,6 +112,11 @@ public class MainFrame extends javax.swing.JFrame {
         comboBoxZona = new javax.swing.JComboBox();
         recordatorioSpinner = new javax.swing.JSpinner();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel15 = new javax.swing.JLabel();
+        fieldObservacion = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listHistorial = new javax.swing.JList();
         lblUserLogged = new javax.swing.JLabel();
         btnEditar = new javax.swing.JToggleButton();
         btnActualizar = new javax.swing.JButton();
@@ -178,7 +186,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel10.setText("Fecha Contrato:");
 
         jLabel11.setFont(new java.awt.Font("Lucida Bright", 1, 13)); // NOI18N
-        jLabel11.setText("Observación:");
+        jLabel11.setText("Comentario");
 
         jLabel12.setFont(new java.awt.Font("Lucida Bright", 1, 13)); // NOI18N
         jLabel12.setText("Disposición:");
@@ -189,10 +197,10 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Lucida Bright", 1, 13)); // NOI18N
         jLabel14.setText("Descripción");
 
-        textAreaObservacion.setColumns(20);
-        textAreaObservacion.setRows(5);
-        textAreaObservacion.setName(""); // NOI18N
-        jScrollPane1.setViewportView(textAreaObservacion);
+        textAreaComentario.setColumns(20);
+        textAreaComentario.setRows(5);
+        textAreaComentario.setName(""); // NOI18N
+        jScrollPane1.setViewportView(textAreaComentario);
 
         fieldFechaContrato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,6 +243,25 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel15.setFont(new java.awt.Font("Lucida Bright", 1, 13)); // NOI18N
+        jLabel15.setText("Observacion");
+
+        fieldObservacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldObservacionActionPerformed(evt);
+            }
+        });
+
+        jLabel19.setFont(new java.awt.Font("Lucida Bright", 1, 13)); // NOI18N
+        jLabel19.setText("Historial");
+
+        listHistorial.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(listHistorial);
+
         org.jdesktop.layout.GroupLayout jInternalFrame1Layout = new org.jdesktop.layout.GroupLayout(jInternalFrame1.getContentPane());
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
         jInternalFrame1Layout.setHorizontalGroup(
@@ -246,76 +273,92 @@ public class MainFrame extends javax.swing.JFrame {
                         .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jInternalFrame1Layout.createSequentialGroup()
                                 .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(lbCuenta)
-                                    .add(jLabel2)
-                                    .add(jLabel3)
-                                    .add(jLabel4))
+                                    .add(jInternalFrame1Layout.createSequentialGroup()
+                                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                            .add(lbCuenta)
+                                            .add(jLabel2)
+                                            .add(jLabel3)
+                                            .add(jLabel4)
+                                            .add(jLabel15))
+                                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                            .add(jInternalFrame1Layout.createSequentialGroup()
+                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .add(fieldCuenta, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 191, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                            .add(jInternalFrame1Layout.createSequentialGroup()
+                                                .add(18, 18, 18)
+                                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldNombres)
+                                                    .add(fieldCedula)
+                                                    .add(jInternalFrame1Layout.createSequentialGroup()
+                                                        .add(fieldApellidos, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 191, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                        .add(0, 0, Short.MAX_VALUE))))))
+                                    .add(jInternalFrame1Layout.createSequentialGroup()
+                                        .add(jLabel16)
+                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                        .add(fieldDir1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 203, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                                .add(18, 18, 18)
                                 .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(jLabel1)
+                                    .add(jLabel9)
+                                    .add(jLabel10)
+                                    .add(jLabel11)
+                                    .add(jLabel14)
+                                    .add(jLabel13)
+                                    .add(jLabel12)))
+                            .add(jInternalFrame1Layout.createSequentialGroup()
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(jLabel5)
+                                    .add(jLabel6)
+                                    .add(jLabel7)
+                                    .add(jLabel8))
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                    .add(jInternalFrame1Layout.createSequentialGroup()
+                                        .add(7, 7, 7)
+                                        .add(comboBoxZona, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 203, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                                     .add(jInternalFrame1Layout.createSequentialGroup()
                                         .add(18, 18, 18)
-                                        .add(fieldCedula, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jInternalFrame1Layout.createSequentialGroup()
-                                        .add(18, 18, 18)
                                         .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldNombres, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldApellidos, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldCuenta, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
+                                            .add(fieldTel2)
+                                            .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldTel1)
+                                            .add(fieldContrato)))))
+                            .add(jInternalFrame1Layout.createSequentialGroup()
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(jLabel17)
+                                    .add(jLabel19))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(fieldDir2)
+                                    .add(jScrollPane2))))
+                        .add(6, 6, 6)
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                                 .add(jInternalFrame1Layout.createSequentialGroup()
-                                    .add(jLabel16)
-                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                    .add(fieldDir1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 203, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .add(jInternalFrame1Layout.createSequentialGroup()
-                                    .add(jLabel17)
-                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                    .add(fieldDir2))))
-                        .add(18, 18, 18)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel1)
-                            .add(jLabel9)
-                            .add(jLabel10)
-                            .add(jLabel11)
-                            .add(jLabel14)
-                            .add(jLabel13)))
-                    .add(jInternalFrame1Layout.createSequentialGroup()
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel5)
-                            .add(jLabel6)
-                            .add(jLabel7)
-                            .add(jLabel8))
-                        .add(7, 7, 7)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(fieldTel1)
-                            .add(fieldTel2)
-                            .add(fieldContrato, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(comboBoxZona, 0, 203, Short.MAX_VALUE))
-                        .add(18, 18, 18)
-                        .add(jLabel12)))
-                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jInternalFrame1Layout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                    .add(182, 182, 182)
+                                    .add(lbCedula, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 59, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(comboBoxDisposicion, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldDescripcionRecordatorio)
+                                .add(jScrollPane1)
+                                .add(fieldEmpresa)
+                                .add(fieldMonto)
+                                .add(fieldFechaContrato))
                             .add(jInternalFrame1Layout.createSequentialGroup()
-                                .add(182, 182, 182)
-                                .add(lbCedula, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 59, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                            .add(comboBoxDisposicion, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, fieldDescripcionRecordatorio)
-                            .add(jScrollPane1)
-                            .add(fieldEmpresa)
-                            .add(fieldMonto)
-                            .add(fieldFechaContrato))
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .add(2, 2, 2)
+                                .add(jCheckBox1)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(recordatorioSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 205, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jInternalFrame1Layout.createSequentialGroup()
-                        .add(2, 2, 2)
-                        .add(jCheckBox1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(recordatorioSpinner, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 205, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .add(0, 0, Short.MAX_VALUE)
+                        .add(fieldObservacion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 558, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jInternalFrame1Layout.createSequentialGroup()
-                .addContainerGap()
+                .add(32, 32, 32)
+                .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(fieldObservacion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel15))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jInternalFrame1Layout.createSequentialGroup()
                         .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -346,8 +389,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(jLabel7)
-                            .add(fieldTel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel12)))
+                            .add(fieldTel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                     .add(jInternalFrame1Layout.createSequentialGroup()
                         .add(fieldMonto, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(6, 6, 6)
@@ -361,7 +403,9 @@ public class MainFrame extends javax.swing.JFrame {
                             .add(jLabel11)
                             .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 102, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(comboBoxDisposicion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(comboBoxDisposicion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel12))))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jInternalFrame1Layout.createSequentialGroup()
@@ -382,7 +426,11 @@ public class MainFrame extends javax.swing.JFrame {
                             .add(fieldDir2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(jLabel14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(fieldDescripcionRecordatorio, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(33, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jInternalFrame1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel19)
+                            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 58, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(26, Short.MAX_VALUE))
                     .add(jInternalFrame1Layout.createSequentialGroup()
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(lbCedula))))
@@ -424,7 +472,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("jButton2");
+        jButton2.setText("Repartir Cuentas");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -525,13 +573,14 @@ public class MainFrame extends javax.swing.JFrame {
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(6, 6, 6)
                         .add(jButton1)
-                        .add(78, 78, 78)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jButton2)
+                        .add(165, 165, 165)
+                        .add(btnEditar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(btnActualizar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, btnEditar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, btnActualizar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .add(btnSiguiente, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .add(btnSiguiente, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(0, 0, Short.MAX_VALUE)
                         .add(lblUserLogged, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 113, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -543,22 +592,16 @@ public class MainFrame extends javax.swing.JFrame {
             .add(layout.createSequentialGroup()
                 .add(lblUserLogged)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jInternalFrame1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(btnEditar)
-                            .add(jButton1))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnActualizar)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(jButton2)
-                        .add(16, 16, 16)))
-                .add(btnSiguiente)
+                .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jInternalFrame1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(btnEditar)
+                    .add(jButton1)
+                    .add(jButton2)
+                    .add(btnActualizar)
+                    .add(btnSiguiente))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -605,24 +648,13 @@ public class MainFrame extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Exception: " + e.getMessage());
         }
-
-
-
-
-
-
-
-
-
-
-
     }
 
     private void btnMenuImportarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuImportarCuentaActionPerformed
         // TODO add your handling code here:
         //JFileChooser fc = CuadroSelectorArchivos.initFileChooser();
         JFileChooser fc = FileChooserFrame.initFileChooser();
-
+        //listaCuentasAgente = null;//ES NECESARIO???
         if (fc != null) {
             comboBoxDisposicion.removeAllItems();
             comboBoxZona.removeAllItems();
@@ -697,9 +729,9 @@ public class MainFrame extends javax.swing.JFrame {
                         try{
                         dataBase.executeUpdate( 
                                 "INSERT INTO cobros.cuenta( "
-                                + "id_cuenta, cedula, nommbre, apellido, tel1, tel2, dir1, dir2, \n"
-                                + "id_zona, fecha_ingreso, no_contrato, fecha_contrato, estatus, \n"
-                                + "id_empresa, monto_deuda, comentario)\n"
+                                + "id_cuenta, cedula, nombre, apellido, tel1, tel2, dir1, dir2, \n"
+                                + "id_zona, fecha_ingreso, no_contrato, fecha_contrato, activo, \n"
+                                + "id_empresa, monto_deuda,observacion)\n"
                                 + "VALUES ("
                                 + cuentaNueva.get(0).toString() + //0
                                 ",'"
@@ -725,14 +757,18 @@ public class MainFrame extends javax.swing.JFrame {
                                 ",'"
                                 + cuentaNueva.get(12).toString() + //11 fecha_contrato
                                 "','"
-                                + "A" + //12 estatus
+                                + "S" + //12 estatus
                                 "',"
                                 + cuentaNueva.get(12).toString() + //13 id_empresa
                                 ","
-                                + cuentaNueva.get(11).toString() + //14 monto_deuda
-                                ",'"
-                                + cuentaNueva.get(15).toString() + //15 comentario
-                                "');");
+                                + cuentaNueva.get(11).toString()  //14 monto_deuda
+                                //+",'"
+                                //+ cuentaNueva.get(15).toString() + //15 comentario
+                                //"'"+
+                                + ",'" 
+                                + cuentaNueva.get(17).toString() //observacion(no editable)
+                                + "'" 
+                                + ");");
                         }catch(Exception e){
                             JOptionPane.showMessageDialog(this,"ERROR CARGANDO LAS NUEVAS CUENTAS","Loading Error", 
                             JOptionPane.ERROR_MESSAGE);
@@ -743,7 +779,7 @@ public class MainFrame extends javax.swing.JFrame {
                         try{
                             dataBase.executeUpdate("UPDATE cobros.cuenta "
                                     + " SET cedula='" + cuentaNueva.get(1).toString()
-                                    + "', nommbre='" + cuentaNueva.get(2).toString()
+                                    + "', nombre='" + cuentaNueva.get(2).toString()
                                     + "', apellido='" + cuentaNueva.get(3).toString()
                                     + "', no_contrato=" + cuentaNueva.get(4).toString()
                                     + ", tel1='" + cuentaNueva.get(5).toString()
@@ -753,11 +789,14 @@ public class MainFrame extends javax.swing.JFrame {
                                     + "', id_zona=" + cuentaNueva.get(9).toString()
                                     + ", fecha_ingreso='" + cuentaNueva.get(12).toString() + //arreglar
                                     "', fecha_contrato='" + cuentaNueva.get(12).toString()
-                                    + "', estatus='" + "A"
+                                    + "', activo='" + "S"
                                     + "', id_empresa=" + cuentaNueva.get(12).toString()
                                     + ", monto_deuda=" + cuentaNueva.get(11).toString()
-                                    + ", comentario='" + cuentaNueva.get(15).toString()
-                                    + "' WHERE id_cuenta = " + cuentaNueva.get(0).toString());
+                                   // + ", comentario='" + cuentaNueva.get(15).toString()
+                                   // + "'"
+                                    + ", observacion='" + cuentaNueva.get(17).toString()
+                                    + "'"
+                                    + " WHERE id_cuenta = " + cuentaNueva.get(0).toString());
                             System.out.println("SETEAO");
                         }catch(Exception e){
                             JOptionPane.showMessageDialog(this,"ERROR ACTUALIZANDO LAS CUENTAS","Updating Error", 
@@ -765,8 +804,7 @@ public class MainFrame extends javax.swing.JFrame {
                         }
                     }
             }
-                
-               
+                 
             actualizarFields(cuenta);
             //comboBoxZona.setSelectedItem(getDescripcionZonaPorId(cuenta.get(7).toString()));
             //comboBoxDisposicion.setSelectedItem(getDescripcionDisposicionPorId(cuenta.get(14).toString()));
@@ -941,6 +979,7 @@ public class MainFrame extends javax.swing.JFrame {
         fieldMonto.setText(cuentaActual.get(10).toString());
         fieldEmpresa.setText(getNombreEmpresaPorId(cuentaActual.get(11).toString()));
         fieldFechaContrato.setText(cuentaActual.get(12).toString());
+        fieldObservacion.setText(cuentaActual.get(17).toString());
         /*if(!rootPaneCheckingEnabled){
          //comboBoxZona.addItem(getDescripcionZonaPorId(cuentaActual.get(7).toString()));
          //comboBoxDisposicion.addItem(getDescripcionDisposicionPorId(cuentaActual.get(14).toString()));
@@ -1003,7 +1042,7 @@ public class MainFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
-        textAreaObservacion.setText(cuentaActual.get(13).toString());
+        textAreaComentario.setText(cuentaActual.get(13).toString());
         //    fieldDisposicion.setText(cuentaActual.get(14).toString());
 
         fieldDescripcionRecordatorio.setText(cuentaActual.get(16).toString());
@@ -1108,10 +1147,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnMenuMisAsignacionesPendientesActionPerformed
 
-    private void fieldCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldCedulaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fieldCedulaActionPerformed
-
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -1132,9 +1167,10 @@ public class MainFrame extends javax.swing.JFrame {
         //           fieldZona.setEditable(b);//debe ser dropdown
         fieldDir1.setEditable(b);
         fieldDir2.setEditable(b);
-        textAreaObservacion.setEditable(b);
+        textAreaComentario.setEditable(b);
         comboBoxDisposicion.setEnabled(b);
         comboBoxZona.setEnabled(b);
+        fieldObservacion.setEditable(false);
         // dateChooserFechaContrato.setEnabled(b);
         // btnEditar.setEnabled(b);
         // btnActualizar.setEnabled(b);
@@ -1170,9 +1206,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
             //id_disposicion
             //ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.descripcion = '"+fieldDisposicion.getText()+"'");
+            
             List cuenta = new ArrayList();
-            cuenta = CargarProperties.getCaso(path, name);
-            disposicionEditada = cuenta.get(14).toString();
+            //cuenta = CargarProperties.getCaso(path, name);
+            cuenta = CargarCSV.getCaso(path, name);
+            //System.out.println("disposicionEDITADA " + cuenta.get(14).toString());
+            //disposicionEditada = cuenta.get(14).toString();
+            
             //ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.descripcion = '"+disposicionEditada+"'");
             ResultSet datosIdDisposicion = dataBase.getResultSet("select * from cobros.disposicion where cobros.disposicion.id_disposicion = " + getIdDisposicionPorDescripcion(comboBoxDisposicion.getSelectedItem().toString()) + "");
             int idDisposicion = 0;
@@ -1198,13 +1238,29 @@ public class MainFrame extends javax.swing.JFrame {
                 Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            //cuentas para el agente logueado
+            ResultSet datosCuentasAgente = dataBase.getResultSet("select * from cobros.agentescuentas where cobros.agentescuentas.id_agente = " + idAgente + "");
+            //List<Integer> listaCuentasAgente = new ArrayList<Integer>();
+            //int totalCuentasParaAgente = 0;
+            try {
+                while (datosCuentasAgente.next()) {
+                    System.out.println("CUENTA AGREGADA " + 
+                         datosCuentasAgente.getInt("id_cuenta") +
+                         " PARA EL AGENTE " + idAgente);
+                    listaCuentasAgente.add(datosCuentasAgente.getInt("id_cuenta"));
+                }
+                totalCuentasParaAgente = listaCuentasAgente.size();
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             //cuadro confirmacion 
             btnDialog = JOptionPane.YES_NO_OPTION;
             dialogResult = JOptionPane.showConfirmDialog(rootPane, "Guardar cambios?", "Cobros ITLA", btnDialog);
             if (dialogResult == 0) {
                 //commit
                 dataBase.executeUpdate(
-                        "insert into cobros.track_cuenta(id_agente,fecha_hora,id_cuenta,id_disposicion,id_reminder, revisado)"
+                        "insert into cobros.track_cuenta(id_agente,fecha_hora,id_cuenta,id_disposicion,id_reminder,comentario,revisado)"
                         + " values("
                         //id Track se omite porque esta serial (tiene una secuencia)       
                         + idAgente //id_agente
@@ -1212,7 +1268,8 @@ public class MainFrame extends javax.swing.JFrame {
                         + ", " + Integer.parseInt(fieldCuenta.getText()) //id_cuenta 
                         + ", " + idDisposicion//id_disposicion
                         + ", " + idReminder//id_reminder
-                        + ", 'S'" //REVISADO
+                        + ", '" + textAreaComentario.getText()//id_reminder
+                        + "', 'S'" //REVISADO
                         + ")");
                 System.out.println("DATOS INSERTADOS!!!");
 
@@ -1221,23 +1278,29 @@ public class MainFrame extends javax.swing.JFrame {
             }
             //crear archivo "cuentaXXXR"
 
-        }
+        
         try {
             //SIGUIENTE...
-            comboBoxDisposicion.removeAllItems();
-            comboBoxZona.removeAllItems();
-            List cuenta = new ArrayList();
-            File[] child;
-            File dir = new File(path);
-            FileNotFoundException fe = new FileNotFoundException();
-
-            child = dir.listFiles();
-            totalCuenta = dir.listFiles().length;
-            for (int i = 0; i < totalCuenta; i++) {
-                cuenta.add(i, child[i].getName());
-//                System.out.println("CONTENIDO CUENTA " + cuenta.get(i));
-
+            
+            //comboBoxDisposicion.removeAllItems();
+            //comboBoxZona.removeAllItems();
+            
+            List siguienteCuenta = new ArrayList();
+            if(indiceCaso<totalCuentasParaAgente){
+                System.out.println("CUENTAS ASIGNADAS AL AGENTE LOGUEADO "+ listaCuentasAgente);
+                System.out.println("CUENTA ASIGNADA A CARGAR "+ listaCuentasAgente.get(indiceCaso));
+                siguienteCuenta = CargarCSV.getCasoEspecifico(this.path, this.name,String.valueOf(listaCuentasAgente.get(indiceCaso)));
+                System.out.println("YAURAN " + siguienteCuenta.contains(listaCuentasAgente));//AQUI HAY ERROR!!!!
+                actualizarFields(siguienteCuenta);//cargar siguientes valores al form //AQUI TAMBINE
+                System.out.println("BOOM!!!");
+                indiceCaso++; //preparar indice para proximo caso  
+                
+                if(indiceCaso==totalCuentasParaAgente){
+                    this.btnSiguiente.setEnabled(false);
+                    System.out.println("OLAOLA");
+                }
             }
+           /*
             if (cuenta.get(indexCuenta).toString().equals("cuenta001.properties")) {
                 System.out.println("CUENTA ("
                         + indexCuenta
@@ -1245,10 +1308,11 @@ public class MainFrame extends javax.swing.JFrame {
                         + cuenta.get(indexCuenta));
 
             }
-
+            
             if (path == null || name == null) {
                 throw fe;
             }
+            
             //cuenta = CargarProperties.getCaso(path, name);
 
             if (indexCuenta <= totalCuenta) {
@@ -1262,6 +1326,8 @@ public class MainFrame extends javax.swing.JFrame {
                 System.out.println("INDICE " + indexCuenta);
                 System.out.println("TOTAL " + totalCuenta);
             }
+            * */
+            
         } catch (ArrayIndexOutOfBoundsException ax) {
             this.btnSiguiente.setEnabled(false);
         } catch (Exception ex) {
@@ -1269,12 +1335,8 @@ public class MainFrame extends javax.swing.JFrame {
             ex.printStackTrace();
         } finally {
         }
-
+        }
     }//GEN-LAST:event_btnSiguienteActionPerformed
-
-    private void fieldFechaContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldFechaContratoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fieldFechaContratoActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
@@ -1347,14 +1409,15 @@ public class MainFrame extends javax.swing.JFrame {
                 + fieldDir2.getText()
                 + "', id_zona = "
                 + idZona
-                + ", comentario = '"
-                + textAreaObservacion.getText().toString()
-                + "' where id_cuenta = "
+                //+ ", comentario = '"
+                //+ textAreaComentario.getText().toString()
+                //+ "'" 
+                + " where id_cuenta = "
                 + Integer.parseInt(fieldCuenta.getText())
                 + " ");
         //hacer insert a track_cuenta
         dataBase.executeUpdate(
-                "insert into cobros.track_cuenta(id_agente,fecha_hora,id_cuenta,id_disposicion,id_reminder,revisado)"
+                "insert into cobros.track_cuenta(id_agente,fecha_hora,id_cuenta,id_disposicion,id_reminder,revisado,comentario)"
                 + " values("
                 //id Track se omite porque esta serial (tiene una secuencia)       
                 + idAgente //id_agente
@@ -1363,15 +1426,14 @@ public class MainFrame extends javax.swing.JFrame {
                 + ", " + idDisposicion//id_disposicion
                 + ", " + idReminder//id_reminder
                 + ", 'S'" //revisado
+                + ", '"
+                + textAreaComentario.getText().toString()
+                + "'"
                 + ")");
         System.out.println("DATOS INSERTADOS!!!");
 
         //crear archivo "cuentaXXXR"
     }//GEN-LAST:event_btnActualizarActionPerformed
-
-    private void comboBoxDisposicionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxDisposicionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboBoxDisposicionActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -1381,13 +1443,19 @@ public class MainFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+        repartirCuentas();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void fieldObservacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldObservacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldObservacionActionPerformed
+
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox1ActionPerformed
-
-    private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1StateChanged
 
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
         // TODO add your handling code here:
@@ -1400,11 +1468,21 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jCheckBox1ItemStateChanged
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
         // TODO add your handling code here:
-        
-        repartirCuentas();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jCheckBox1StateChanged
+
+    private void comboBoxDisposicionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxDisposicionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxDisposicionActionPerformed
+
+    private void fieldFechaContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldFechaContratoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldFechaContratoActionPerformed
+
+    private void fieldCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldCedulaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldCedulaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
@@ -1434,6 +1512,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField fieldFechaContrato;
     private javax.swing.JTextField fieldMonto;
     private javax.swing.JTextField fieldNombres;
+    private javax.swing.JTextField fieldObservacion;
     private javax.swing.JTextField fieldTel1;
     private javax.swing.JTextField fieldTel2;
     private javax.swing.JButton jButton1;
@@ -1446,8 +1525,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1459,11 +1540,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lbCedula;
     private javax.swing.JLabel lbCuenta;
     private javax.swing.JLabel lblUserLogged;
+    private javax.swing.JList listHistorial;
     private javax.swing.JSpinner recordatorioSpinner;
-    private javax.swing.JTextArea textAreaObservacion;
+    private javax.swing.JTextArea textAreaComentario;
     // End of variables declaration//GEN-END:variables
 }

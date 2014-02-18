@@ -52,6 +52,7 @@ public class CargarCSV {
                 cuenta.add(caso[14]);//disposicion
                 cuenta.add(caso[15]);//recordatorio
                 cuenta.add(caso[16]);//descripcionRecordatorio
+                cuenta.add(caso[17]);//observacion(no editable)
                 }
             }
         } catch (FileNotFoundException e) {
